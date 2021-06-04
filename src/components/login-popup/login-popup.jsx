@@ -14,6 +14,7 @@ const LoginPopup = () => {
           <input type="text" id="login" />
           <label htmlFor="password">Пароль</label>
           <input type="text" id="password" />
+          <button type="button"></button>
           <a href="#">Забыли пароль?</a>
           <button type="submit">Войти</button>
         </form>
