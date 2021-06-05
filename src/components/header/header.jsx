@@ -6,7 +6,7 @@ import LoginPopup from '../login-popup/login-popup';
 
 const Header = () => {
   return (
-    <header className="header header--menu-opened">
+    <header className="header">
       <div className="header__wrapper">
         <button className="header__menu-button"></button>
         <a href="#">
