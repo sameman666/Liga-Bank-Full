@@ -2,6 +2,9 @@
 
 .main {
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main__swiper {
@@ -167,4 +170,81 @@
       width: 206px;
     }
   }
+}
+
+.main__tabs {
+  width: 100%;
+  min-height: 503px;
+  min-width: 1014px;
+  max-width: 1170px;
+  margin: 0 5px;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  background-color: #F6F7FF;
+}
+
+.main__tabs-buttons {
+  min-height: 93px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  button {
+    cursor: pointer;
+    width: 25%;
+    height: 93px;
+    border: none;
+    background-color: #FFFFFF;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    position: relative;
+  }
+
+  button::before {
+    content: "";
+    background-repeat: no-repeat;
+    position: absolute;
+  }
+
+  .main__tabs-button--vault::before {
+    background-image: url('./vault.svg');
+    width: 34px;
+    height: 33px;
+    left: 70px;
+    top: 30px;
+  }
+
+  .main__tabs-button--cards::before {
+    background-image: url('./cards.svg');
+    width: 34px;
+    height: 30px;
+    left: 70px;
+    top: 30px;
+  }
+
+  .main__tabs-button--security::before {
+    background-image: url('./security.svg');
+    width: 28px;
+    height: 34px;
+    left: 57px;
+    top: 30px;
+  }
+
+  .main__tabs-button--phone::before {
+    background-image: url('./phone.svg');
+    width: 20px;
+    height: 34px;
+    left: 50px;
+    top: 30px;
+  }
+
+  .main__tabs-button--active {
+    background-color: transparent;
+  }
+}
+
+.main__tabs-content {
+  min-height: 410px;
 }
