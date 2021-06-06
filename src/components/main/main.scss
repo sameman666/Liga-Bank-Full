@@ -262,3 +262,141 @@
     width: 100%;
   }
 }
+
+.main__calculator {
+    width: 100%;
+    min-height: 325px;
+    min-width: 1014px;
+    max-width: 1170px;
+    margin: 0 5px;
+    margin-top: 110px;
+
+  .main__calculator-inputs {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+  }
+
+  h2 {
+    margin: 0;
+    margin-bottom: 70px;
+    font-weight: bold;
+    font-size: 41px;
+    line-height: 140%;
+  }
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.main__calculator-parameters {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  input[type='checkbox'] + label::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid #1F1E25;
+    left: -20px;
+    top: 1px;
+    border-radius: 2px;
+  }
+
+
+  input[type='checkbox']:checked + label::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url("./checkbox_on.svg");
+    background-repeat: no-repeat;
+    left: -20px;
+    top: 1px;
+    border-radius: 2px;
+  }
+
+  input[type='number'] {
+    -moz-appearance:textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 140%;
+    color: #394959;
+    margin-bottom: 15px;
+    margin-top: 30px;
+  }
+
+  label:last-of-type {
+    position: relative;
+    margin-left: 15px;
+  }
+
+  input {
+    height: 60px;
+    border: 1px solid #1F1E25;
+    border-radius: 4px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 140%;
+    color: #707C87;
+    margin: 0;
+    margin-top: 10px;
+  }
+}
+
+.main__calculator-parameters-price {
+  position: relative;
+
+  input {
+    width: 100%;
+  }
+}
+
+.main__calculator-price-buttons {
+  position: absolute;
+  top: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.main__calculator-line {
+  height: 1px;
+  background-color: #C1C2CA;
+  margin-top: 22px;
+  position: relative;
+}
+
+.main__calculator-pin {
+  cursor: pointer;
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #2C36F2;
+  border-radius: 100%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main__calculator-years {
+  display: flex;
+  justify-content: space-between;
+}

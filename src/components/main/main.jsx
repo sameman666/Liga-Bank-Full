@@ -15,6 +15,7 @@ import piggyBankMobile from '../tab/piggybank_mobile.jpg';
 import carMobile from '../tab/car_mobile.jpg';
 import lockMobile from '../tab/lock_mobile.jpg';
 import phoneMobile from '../tab/phone_mobile.jpg';
+import Select from 'react-select';
 // import Swiper core and required modules
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
 
@@ -74,6 +75,58 @@ const mockTabsData = {
     imageTablet: phoneTablet,
     imageMobile: phoneMobile,
   },
+};
+
+const options = [
+  {value: `Ипотечное кредитование`, label: `Ипотечное кредитование`},
+  {value: `Автомобильное кредитование`, label: `Автомобильное кредитование`},
+];
+
+const customStyles = {
+  indicatorSeparator: () => ({
+    display: `none`
+  }),
+  menu: (provided) => ({
+    ...provided,
+    marginTop: 0,
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    paddingTop: 0,
+    paddingBottom: 0,
+  }),
+  option: (provided) => ({
+    ...provided,
+    padding: `25px 24px`,
+    borderBottom: `1px solid #C1C2CA`,
+    height: 60,
+  }),
+  control: (provided) => ({
+    ...provided,
+    height: 60,
+    paddingLeft: 21,
+    borderColor: `#1F1E25`,
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: 0,
+  }),
+  container: (provided) => ({
+    ...provided,
+    width: 600,
+    height: 60,
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: `#1F1E25`,
+    fontWeight: 500,
+  }),
+  // singleValue: (provided, state) => {
+  //   const opacity = state.isDisabled ? 0.5 : 1;
+  //   const transition = `opacity 300ms`;
+
+  //   return {...provided, opacity, transition};
+  // }
 };
 
 const Main = () => {
@@ -161,6 +214,46 @@ const Main = () => {
             <Tab data={mockTabsData[TabName.ONLINE]}/>
           </SwiperSlide>
         </Swiper>
+      </section>
+      <section className="main__calculator">
+        <div className="main__calculator-inputs">
+          <h2>Кредитный калькулятор</h2>
+          <div className="main__calculator-target">
+            <h3>Шаг 1. Цель кредита</h3>
+            <Select placeholder={`Выберите цель кредита`} options={options} styles={customStyles} />
+          </div>
+          <div className="main__calculator-parameters">
+            <h3>Шаг 2. Введите параметры кредита</h3>
+            <label htmlFor="price">Стоимость недвижимости</label>
+            <div className="main__calculator-parameters-price">
+              <input type="number" name="price" id="price" />
+              <div className="main__calculator-price-buttons">
+                <button>-</button>
+                <button>+</button>
+              </div>
+            </div>
+            <p>От 1 200 000  до 25 000 000 рублей</p>
+            <label htmlFor="initial-fee">Первоначальный взнос</label>
+            <input type="number" name="initial-fee" id="initial-fee" />
+            <div className="main__calculator-line">
+              <div className="main__calculator-pin"></div>
+              <div className="main__calculator-depth"></div>
+            </div>
+            <p>10%</p>
+            <label htmlFor="initial-fee">Срок кредитования</label>
+            <input type="number" name="initial-fee" id="initial-fee" />
+            <div className="main__calculator-line">
+              <div className="main__calculator-pin"></div>
+              <div className="main__calculator-depth"></div>
+            </div>
+            <div className="main__calculator-years">
+              <p>5 лет</p>
+              <p>30 лет</p>
+            </div>
+            <input type="checkbox" name="maternal-capital" id="maternal-capital" />
+            <label htmlFor="maternal-capital">Использовать материнский капитал</label>
+          </div>
+        </div>
       </section>
     </main>
   );
