@@ -7,6 +7,14 @@ import piggyBank from '../tab/piggybank.jpg';
 import car from '../tab/car.jpg';
 import lock from '../tab/lock.jpg';
 import phone from '../tab/phone.jpg';
+import piggyBankTablet from '../tab/piggybank_tablet.jpg';
+import carTablet from '../tab/car_tablet.jpg';
+import lockTablet from '../tab/lock_tablet.jpg';
+import phoneTablet from '../tab/phone_tablet.jpg';
+import piggyBankMobile from '../tab/piggybank_mobile.jpg';
+import carMobile from '../tab/car_mobile.jpg';
+import lockMobile from '../tab/lock_mobile.jpg';
+import phoneMobile from '../tab/phone_mobile.jpg';
 // import Swiper core and required modules
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
 
@@ -34,21 +42,27 @@ const mockTabsData = {
     features: [`Проценты по вкладам до 7%`, `Разнообразные условия`, `Возможность ежемесячной капитализации или вывод процентов на банковскую карту`],
     isButton: true,
     isLink: false,
-    image: piggyBank
+    image: piggyBank,
+    imageTablet: piggyBankTablet,
+    imageMobile: piggyBankMobile,
   },
   CREDITS: {
     title: `Лига Банк выдает кредиты под любые цели`,
     features: [`Ипотечный кредит`, `Автокредит`, `Потребительский кредит`],
     isButton: false,
     isLink: true,
-    image: car
+    image: car,
+    imageTablet: carTablet,
+    imageMobile: carMobile,
   },
   INSURANCE: {
     title: `Лига Страхование — застрахуем все что захотите`,
     features: [`Автомобильное страхование`, `Страхование жизни и здоровья`, `Страхование недвижимости`],
     isButton: true,
     isLink: false,
-    image: lock
+    image: lock,
+    imageTablet: lockTablet,
+    imageMobile: lockMobile,
   },
   ONLINE: {
     title: `Лига Банк — это огромное количество онлайн-сервисов для вашего удобства`,
@@ -56,7 +70,9 @@ const mockTabsData = {
     который всегда под рукой`, `Приложение Лига-проездной позволит вам оплачивать билеты по всему миру`],
     isButton: true,
     isLink: false,
-    image: phone
+    image: phone,
+    imageTablet: phoneTablet,
+    imageMobile: phoneMobile,
   },
 };
 
@@ -82,10 +98,10 @@ const Main = () => {
           spaceBetween={0}
           slidesPerView={1}
           pagination={{clickable: false}}
-          // autoplay={{
-          //   "delay": 4000,
-          //   "disableOnInteraction": false
-          // }}
+          autoplay={{
+            "delay": 4000,
+            "disableOnInteraction": false
+          }}
         >
           <SwiperSlide>
             <div className="main__swiper-slide main__swiper-slide--1">
@@ -111,7 +127,8 @@ const Main = () => {
                 <p>Всегда рядом</p>
                 <button type="button">Найти отделение</button>
               </div>
-            </div></SwiperSlide>
+            </div>
+          </SwiperSlide>
         </Swiper>
       </section>
       <section className="main__tabs">
@@ -124,6 +141,26 @@ const Main = () => {
         <div className="main__tabs-content">
           <Tab data={mockTabsData[state.activeTab]}/>
         </div>
+      </section>
+      <section className="main__swiper-service">
+        <Swiper
+          spaceBetween={0}
+          slidesPerView={1}
+          pagination={{clickable: false}}
+        >
+          <SwiperSlide>
+            <Tab data={mockTabsData[TabName.DEPOSITS]}/>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Tab data={mockTabsData[TabName.CREDITS]}/>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Tab data={mockTabsData[TabName.INSURANCE]}/>
+          </SwiperSlide>
+          <SwiperSlide>
+            <Tab data={mockTabsData[TabName.ONLINE]}/>
+          </SwiperSlide>
+        </Swiper>
       </section>
     </main>
   );

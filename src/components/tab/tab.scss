@@ -1,3 +1,5 @@
+@import '../../styles/mixin.scss';
+
 .tab {
   min-height: 410px;
   display: flex;
@@ -5,17 +7,53 @@
   padding: 60px 70px;
   padding-bottom: 30px;
 
+  @include tablet {
+    min-height: 380px;
+    padding-left: 45px;
+    padding-right: 20px;
+  }
+
+  @include mobile {
+    min-height: 362px;
+    padding-left: 15px;
+  }
+
+  picture {
+    @include mobile {
+      position: absolute;
+      right: 0;
+      top: 130px;
+      z-index: -1;
+    }
+  }
+
   p {
     font-weight: 500;
     font-size: 22px;
     line-height: 140%;
     margin-top: 0;
+
+    @include tablet {
+      font-size: 18px;
+    }
+
+    @include mobile {
+      font-size: 16px;
+    }
   }
 
   p:last-child {
     font-size: 18px;
     line-height: 140%;
     font-weight: normal;
+
+    @include tablet {
+      font-size: 16px;
+    }
+
+    @include mobile {
+      font-size: 14px;
+    }
   }
 
   ul {
@@ -23,6 +61,15 @@
     font-size: 18px;
     line-height: 130%;
     padding-left: 20px;
+
+    @include tablet {
+      font-size: 16px;
+    }
+
+    @include mobile {
+      font-size: 14px;
+      width: 232px;
+    }
   }
 
   li {
@@ -31,11 +78,20 @@
 
   img {
     margin-left: 133px;
+
+    @include tablet {
+      margin-left: 0;
+    }
   }
 }
 
 .tab__description {
   width: 370px;
+
+  @include tablet {
+    width: 100%;
+    padding-right: 20px;
+  }
 
   button {
     cursor: pointer;
@@ -48,6 +104,15 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
+
+    @include tablet {
+      min-height: 48px;
+    }
+
+    @include mobile {
+      width: 290px;
+      min-height: 43px;
+    }
   }
 
   a {

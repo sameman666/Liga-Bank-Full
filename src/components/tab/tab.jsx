@@ -12,7 +12,11 @@ const Tab = ({data}) => {
         {data.isButton && <button type="button">Узнать подробнее</button>}
         {data.isLink && <p>Рассчитайте ежемесячный платеж и ставку по кредиту воспользовавшись нашим <a href="">кредитным калькулятором</a></p>}
       </div>
-      <img src={data.image} alt="Вклады" />
+      <picture>
+        <source srcSet={data.imageMobile} media="(max-width: 767.2px)" />
+        <source srcSet={data.imageTablet} media="(max-width: 1023.2px)" />
+        <img src={data.image} alt="Вклады" />
+      </picture>
     </div>
   );
 };

@@ -5,7 +5,7 @@
   background-color: #F6F7FF;
   display: flex;
   justify-content: center;
-  min-width: 320px;
+  min-width: 303px;
 
   @include tablet {
     min-height: 69px;;
@@ -40,11 +40,11 @@
   display: flex;
 
   @include tablet {
-    min-width: 758px;
+    min-width: 751px;
   }
 
   @include mobile {
-    min-width: 310px;
+    min-width: 303px;
   }
 }
 
