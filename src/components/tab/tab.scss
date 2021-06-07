@@ -4,25 +4,26 @@
   min-height: 410px;
   display: flex;
   align-items: flex-start;
-  padding: 60px 70px;
+  padding: 55px 71px;
   padding-bottom: 30px;
 
   @include tablet {
     min-height: 380px;
     padding-left: 45px;
-    padding-right: 20px;
+    padding-right: 45px;
   }
 
   @include mobile {
     min-height: 362px;
     padding-left: 15px;
+    padding-right: 0;
   }
 
   picture {
     @include mobile {
       position: absolute;
       right: 0;
-      top: 130px;
+      top: 94px;
       z-index: -1;
     }
   }
@@ -32,13 +33,16 @@
     font-size: 22px;
     line-height: 140%;
     margin-top: 0;
+    margin-bottom: 28px;
 
     @include tablet {
       font-size: 18px;
+      margin-bottom: 26px;
     }
 
     @include mobile {
       font-size: 16px;
+      margin-bottom: 22px;
     }
   }
 
@@ -61,23 +65,33 @@
     font-size: 18px;
     line-height: 130%;
     padding-left: 20px;
+    margin-bottom: 34px;
 
     @include tablet {
       font-size: 16px;
+      margin-bottom: 31px;
     }
 
     @include mobile {
       font-size: 14px;
       width: 232px;
+      list-style: url('./list_item_icon_mobile.svg');
+      padding-left: 15px;
+      margin-bottom: 24px;
     }
   }
 
   li {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+
+    @include mobile {
+      margin-bottom: 12px;
+    }
   }
 
   img {
     margin-left: 133px;
+    margin-top: 5px;
 
     @include tablet {
       margin-left: 0;
@@ -86,7 +100,7 @@
 }
 
 .tab__description {
-  width: 370px;
+  width: 391px;
 
   @include tablet {
     width: 100%;

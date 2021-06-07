@@ -103,9 +103,14 @@ const customStyles = {
   }),
   control: (provided) => ({
     ...provided,
-    height: 60,
-    paddingLeft: 21,
-    borderColor: `#1F1E25`,
+    "height": 60,
+    "paddingLeft": 21,
+    "borderColor": `#1F1E25`,
+    "paddingTop": 3,
+    "@media (max-width: 767.2px)": {
+      ...provided[`@media only screen and (max-width: 767.2px)`],
+      paddingLeft: 12,
+    },
   }),
   valueContainer: (provided) => ({
     ...provided,
@@ -113,8 +118,18 @@ const customStyles = {
   }),
   container: (provided) => ({
     ...provided,
-    width: 600,
-    height: 60,
+    "width": 600,
+    "height": 60,
+    "marginTop": 25,
+    "@media (max-width: 1023.2px)": {
+      ...provided[`@media only screen and (max-width: 1023.2px)`],
+      width: `100%`,
+      marginTop: 21,
+    },
+    "@media (max-width: 767.2px)": {
+      ...provided[`@media only screen and (max-width: 767.2px)`],
+      marginTop: 16,
+    },
   }),
   placeholder: (provided) => ({
     ...provided,
@@ -228,8 +243,8 @@ const Main = () => {
             <div className="main__calculator-parameters-price">
               <input type="number" name="price" id="price" />
               <div className="main__calculator-price-buttons">
-                <button>-</button>
-                <button>+</button>
+                <button className="main__calculator-price-button main__calculator-price-button--minus"></button>
+                <button className="main__calculator-price-button main__calculator-price-button--plus"></button>
               </div>
             </div>
             <p>От 1 200 000  до 25 000 000 рублей</p>
@@ -254,6 +269,70 @@ const Main = () => {
             <label htmlFor="maternal-capital">Использовать материнский капитал</label>
           </div>
         </div>
+        <div className="main__calculator-popup">
+          <div className="main__calculator-offer">
+            <p className="main__calculator-offer-title">Наше предложение</p>
+            <div className="main__calculator-offer-wrapper">
+              <div className="main__calculator-offer-item">
+                <p className="main__calculator-offer-title">1 330 000 рублей</p>
+                <p className="main__calculator-offer-description">Сумма ипотеки</p>
+              </div>
+              <div className="main__calculator-offer-item">
+                <p className="main__calculator-offer-title">9,40%</p>
+                <p className="main__calculator-offer-description">Процентная ставка</p>
+              </div>
+              <div className="main__calculator-offer-item">
+                <p className="main__calculator-offer-title">27 868 рублей</p>
+                <p className="main__calculator-offer-description">Ежемесячный платеж</p>
+              </div>
+              <div className="main__calculator-offer-item">
+                <p className="main__calculator-offer-title">61 929 рублей</p>
+                <p className="main__calculator-offer-description">Необходимый доход</p>
+              </div>
+            </div>
+            <button type="button">Оформить заявку</button>
+          </div>
+          <div className="main__calculator-reject">
+            <p className="main__calculator-offer-title">Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.</p>
+            <p className="main__calculator-offer-description">Попробуйте использовать другие параметры для расчёта.</p>
+          </div>
+        </div>
+      </section>
+      <section className="main__form">
+        <form action="https://echo.htmlacademy.ru">
+          <h3>Шаг 3. Оформление заявки</h3>
+          <ul>
+            <li>
+              <p>Номер заявки</p>
+              <p>№ 0010</p>
+            </li>
+            <li>
+              <p>Цель кредита</p>
+              <p>Ипотека</p>
+            </li>
+            <li>
+              <p>Стоимость недвижимости</p>
+              <p>2 000 000 рублей</p>
+            </li>
+            <li>
+              <p>Первоначальный взнос</p>
+              <p>200 000 рублей</p>
+            </li>
+            <li>
+              <p>Срок кредитования</p>
+              <p>5 лет</p>
+            </li>
+          </ul>
+          <label htmlFor="full-name"></label>
+          <input type="text" name="full-name" id="full-name" placeholder="ФИО"/>
+          <div className="main__form-contacts">
+            <label htmlFor="phone"></label>
+            <input type="tel" name="phone" id="phone" placeholder="Телефон"/>
+            <label htmlFor="email"></label>
+            <input type="email" name="email" id="email" placeholder="E-mail"/>
+          </div>
+          <button type="submit">Отправить</button>
+        </form>
       </section>
     </main>
   );
