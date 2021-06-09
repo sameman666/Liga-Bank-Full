@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import 'swiper/components/pagination/pagination.scss';
 import './main.scss';
 import Tab from '../tab/tab';
@@ -136,12 +136,6 @@ const customStyles = {
     color: `#1F1E25`,
     fontWeight: 500,
   }),
-  // singleValue: (provided, state) => {
-  //   const opacity = state.isDisabled ? 0.5 : 1;
-  //   const transition = `opacity 300ms`;
-
-  //   return {...provided, opacity, transition};
-  // }
 };
 
 const Main = () => {
@@ -151,6 +145,17 @@ const Main = () => {
   };
 
   const [state, setState] = useState(initialState);
+
+  const calculator = useRef();
+  const offices = useRef();
+
+  const scrollToCalculator = () => {
+    calculator.current.scrollIntoView({behavior: `smooth`});
+  };
+
+  const scrollToOffices = () => {
+    offices.current.scrollIntoView({behavior: `smooth`});
+  };
 
   const tabHandler = (evt) => {
     setState({
@@ -176,7 +181,7 @@ const Main = () => {
               <div className="main__swiper-slide-info">
                 <h1>Лига Банк</h1>
                 <p>Кредиты на любой случай</p>
-                <button type="button">Рассчитать кредит</button>
+                <button onClick={scrollToCalculator} type="button">Рассчитать кредит</button>
               </div>
             </div>
           </SwiperSlide>
@@ -193,7 +198,7 @@ const Main = () => {
               <div className="main__swiper-slide-info">
                 <h1>Лига Банк</h1>
                 <p>Всегда рядом</p>
-                <button type="button">Найти отделение</button>
+                <button onClick={scrollToOffices} type="button">Найти отделение</button>
               </div>
             </div>
           </SwiperSlide>
@@ -230,7 +235,7 @@ const Main = () => {
           </SwiperSlide>
         </Swiper>
       </section>
-      <section className="main__calculator">
+      <section ref={calculator} className="main__calculator">
         <div className="main__calculator-inputs">
           <h2>Кредитный калькулятор</h2>
           <div className="main__calculator-target">
@@ -241,22 +246,20 @@ const Main = () => {
             <h3>Шаг 2. Введите параметры кредита</h3>
             <label htmlFor="price">Стоимость недвижимости</label>
             <div className="main__calculator-parameters-price">
-              <input type="number" name="price" id="price" />
-              <div className="main__calculator-price-buttons">
-                <button className="main__calculator-price-button main__calculator-price-button--minus"></button>
-                <button className="main__calculator-price-button main__calculator-price-button--plus"></button>
-              </div>
+              <input type="text" name="price" id="price" defaultValue="2 000 000 рублей"/>
+              <button className="main__calculator-price-button main__calculator-price-button--minus"></button>
+              <button className="main__calculator-price-button main__calculator-price-button--plus"></button>
             </div>
             <p>От 1 200 000  до 25 000 000 рублей</p>
             <label htmlFor="initial-fee">Первоначальный взнос</label>
-            <input type="number" name="initial-fee" id="initial-fee" />
+            <input type="text" name="initial-fee" id="initial-fee" defaultValue="200 000 рублей"/>
             <div className="main__calculator-line">
               <div className="main__calculator-pin"></div>
               <div className="main__calculator-depth"></div>
             </div>
             <p>10%</p>
-            <label htmlFor="initial-fee">Срок кредитования</label>
-            <input type="number" name="initial-fee" id="initial-fee" />
+            <label htmlFor="credit-term">Срок кредитования</label>
+            <input type="text" name="credit-term" id="credit-term" defaultValue="5 лет"/>
             <div className="main__calculator-line">
               <div className="main__calculator-pin"></div>
               <div className="main__calculator-depth"></div>
@@ -334,7 +337,7 @@ const Main = () => {
           <button type="submit">Отправить</button>
         </form>
       </section>
-      <section className="main__offices">
+      <section ref={offices} className="main__offices">
         <div className="main__offices-map">
           <h2>Отделения Лига Банка</h2>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d577325.3464971667!2d36.82513809290739!3d55.58152447403445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54afc73d4b0c9%3A0x3d44d6cc5757cf4c!2z0JzQvtGB0LrQstCw!5e0!3m2!1sru!2sru!4v1623077063555!5m2!1sru!2sru" style={{border: `0`}} allowFullScreen="" loading="lazy"></iframe>

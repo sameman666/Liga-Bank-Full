@@ -133,10 +133,10 @@
     background: #F6F7FF;
     border-radius: 4px;
     color: #1F1E25;
-    border: none;
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
+    border: none;
 
     @include tablet {
       width: 206px;
@@ -385,13 +385,8 @@
     border-radius: 2px;
   }
 
-  input[type='number'] {
-    -moz-appearance:textfield;
-  }
-
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
+  input[type="text"] {
+    text-align: center;
   }
 
   label {
@@ -452,35 +447,26 @@
   }
 }
 
-.main__calculator-price-buttons {
+.main__calculator-price-button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
   position: absolute;
-  top: 18px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 24px;
+  top: 23px;
+}
 
-  @include mobile {
-    padding-right: 15px;
-  }
+.main__calculator-price-button--minus {
+  left: 24px;
+  background-image: url('./minus.svg');
+}
 
-  .main__calculator-price-button {
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    width: 16px;
-    height: 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  .main__calculator-price-button--minus {
-    background-image: url('./minus.svg');
-  }
-
-  .main__calculator-price-button--plus {
-    background-image: url('./plus.svg');
-  }
+.main__calculator-price-button--plus {
+  right: 24px;
+  background-image: url('./plus.svg');
 }
 
 .main__calculator-line {

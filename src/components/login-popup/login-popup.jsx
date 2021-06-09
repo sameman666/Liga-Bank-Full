@@ -1,26 +1,60 @@
 import './login-popup.scss';
 import popupLogo from './popup_logo.png';
+import PropTypes from 'prop-types';
+import {useState} from 'react';
 
-const LoginPopup = () => {
+const LoginPopup = ({onLoginPopupHandler, onKeyDownHandler, passwordRef, onShowPasswordHandler, onHidePasswordHandler, onFormSubmitHandler}) => {
+
+  const initialLocalStorage = {
+    login: localStorage.getItem(`login`) ? localStorage.getItem(`login`) : ``,
+    password: localStorage.getItem(`password`) ? localStorage.getItem(`password`) : ``,
+  };
+
+  const [state] = useState(initialLocalStorage);
+
+  const setLocalStorageItems = (evt) => {
+    switch (evt.target.name) {
+      case `login`: {
+        localStorage.setItem(`login`, evt.target.value);
+        break;
+      }
+      case `password`: {
+        localStorage.setItem(`password`, evt.target.value);
+        break;
+      }
+    }
+  };
+
   return (
-    <div className="popup">
-      <div className="popup__inputs">
-        <div className="popup__head">
-          <img src={popupLogo} alt="Лига Банк" />
-          <button className="popup__close-button"></button>
+    <div onKeyDown={onKeyDownHandler} tabIndex={0} className="popup-overlay">
+      <div className="popup">
+        <div className="popup__inputs">
+          <div className="popup__head">
+            <img src={popupLogo} alt="Лига Банк" />
+            <button onClick={onLoginPopupHandler} className="popup__close-button"></button>
+          </div>
+          <form onSubmit={onFormSubmitHandler} action="https://echo.htmlacademy.ru">
+            <label htmlFor="login">Логин</label>
+            <input onChange={setLocalStorageItems} defaultValue={state.login} type="text" name="login" id="login" autoFocus={true}/>
+            <label htmlFor="password">Пароль</label>
+            <input onChange={setLocalStorageItems} defaultValue={state.password} type="password" name="password" id="password" ref={passwordRef}/>
+            <button onMouseDown={onShowPasswordHandler} onMouseUp={onHidePasswordHandler} type="button"></button>
+            <a href="#">Забыли пароль?</a>
+            <button type="submit">Войти</button>
+          </form>
         </div>
-        <form action="https://echo.htmlacademy.ru">
-          <label htmlFor="login">Логин</label>
-          <input type="text" id="login" />
-          <label htmlFor="password">Пароль</label>
-          <input type="text" id="password" />
-          <button type="button"></button>
-          <a href="#">Забыли пароль?</a>
-          <button type="submit">Войти</button>
-        </form>
       </div>
     </div>
   );
+};
+
+LoginPopup.propTypes = {
+  onLoginPopupHandler: PropTypes.func,
+  onKeyDownHandler: PropTypes.func,
+  passwordRef: PropTypes.object,
+  onShowPasswordHandler: PropTypes.func,
+  onHidePasswordHandler: PropTypes.func,
+  onFormSubmitHandler: PropTypes.func
 };
 
 export default LoginPopup;

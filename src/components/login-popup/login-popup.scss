@@ -1,16 +1,24 @@
 @import '../../styles/mixin.scss';
 
+.popup-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.26);
+}
+
 .popup {
-  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: 544px;
   min-height: 493px;
   border: 4px solid #2C36F2;
   background: #F6F7FF;
   padding: 56px;
+  z-index: 2;
 
   @include tablet {
     width: 678px;
@@ -134,4 +142,8 @@
       }
     }
   }
+}
+
+.popup-opened {
+  overflow: hidden;
 }
