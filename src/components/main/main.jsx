@@ -1,35 +1,41 @@
 /* eslint-disable no-console */
-import {useState, useRef} from 'react';
-import 'swiper/components/pagination/pagination.scss';
-import './main.scss';
-import Tab from '../tab/tab';
-import piggyBank from '../tab/piggybank.jpg';
-import car from '../tab/car.jpg';
-import lock from '../tab/lock.jpg';
-import phone from '../tab/phone.jpg';
-import piggyBankTablet from '../tab/piggybank_tablet.jpg';
-import carTablet from '../tab/car_tablet.jpg';
-import lockTablet from '../tab/lock_tablet.jpg';
-import phoneTablet from '../tab/phone_tablet.jpg';
-import piggyBankMobile from '../tab/piggybank_mobile.jpg';
-import carMobile from '../tab/car_mobile.jpg';
-import lockMobile from '../tab/lock_mobile.jpg';
-import phoneMobile from '../tab/phone_mobile.jpg';
+import {useEffect, useRef, useState} from 'react';
+import CurrencyInput from 'react-currency-input';
 import Select from 'react-select';
 // import Swiper core and required modules
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
-
+import 'swiper/components/pagination/pagination.scss';
 // Import Swiper React components
 import {Swiper, SwiperSlide} from 'swiper/react';
-
 // Import Swiper styles
 import 'swiper/swiper.scss';
+import car from '../tab/car.jpg';
+import carMobile from '../tab/car_mobile.jpg';
+import carTablet from '../tab/car_tablet.jpg';
+import lock from '../tab/lock.jpg';
+import lockMobile from '../tab/lock_mobile.jpg';
+import lockTablet from '../tab/lock_tablet.jpg';
+import phone from '../tab/phone.jpg';
+import phoneMobile from '../tab/phone_mobile.jpg';
+import phoneTablet from '../tab/phone_tablet.jpg';
+import piggyBank from '../tab/piggybank.jpg';
+import piggyBankMobile from '../tab/piggybank_mobile.jpg';
+import piggyBankTablet from '../tab/piggybank_tablet.jpg';
+import Tab from '../tab/tab';
+import './main.scss';
+
+
 // import 'swiper/components/navigation/navigation.scss';
 // import 'swiper/components/scrollbar/scrollbar.scss';
 
 // install Swiper modules
 SwiperCore.use([Autoplay, Pagination]);
 
+const PLACEHOLDER = `Выберите цель кредита`;
+const smoothScroll = {
+  behavior: `smooth`,
+};
+const ESCAPE_KEYCODE = 27;
 const TabName = {
   DEPOSITS: `DEPOSITS`,
   CREDITS: `CREDITS`,
@@ -77,23 +83,39 @@ const mockTabsData = {
   },
 };
 
+const availableCredits = {
+  HOUSE_CREDIT: `Ипотечное кредитование`,
+  CAR_CREDIT: `Автомобильное кредитование`
+};
+
 const options = [
-  {value: `Ипотечное кредитование`, label: `Ипотечное кредитование`},
-  {value: `Автомобильное кредитование`, label: `Автомобильное кредитование`},
+  {value: availableCredits.HOUSE_CREDIT, label: availableCredits.HOUSE_CREDIT},
+  {value: availableCredits.CAR_CREDIT, label: availableCredits.CAR_CREDIT},
 ];
 
 const customStyles = {
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    "transform": state.menuIsOpen ? `rotate(180deg)` : `rotate(0deg)`,
+    "marginRight": 22,
+    "@media (max-width: 767.2px)": {
+      ...provided[`@media only screen and (max-width: 767.2px)`],
+      marginRight: 14,
+    },
+  }),
   indicatorSeparator: () => ({
     display: `none`
   }),
   menu: (provided) => ({
     ...provided,
     marginTop: 0,
+    borderRadius: `0 0 4px 4px`
   }),
   menuList: (provided) => ({
     ...provided,
     paddingTop: 0,
     paddingBottom: 0,
+    border: `1px solid #1F1E25`,
   }),
   option: (provided) => ({
     ...provided,
@@ -101,8 +123,10 @@ const customStyles = {
     borderBottom: `1px solid #C1C2CA`,
     height: 60,
   }),
-  control: (provided) => ({
+  control: (provided, state) => ({
     ...provided,
+    "borderRadius": state.menuIsOpen ? `4px 4px 0 0` : `4px 4px 4px 4px`,
+    "boxShadow": `none`,
     "height": 60,
     "paddingLeft": 21,
     "borderColor": `#1F1E25`,
@@ -142,25 +166,174 @@ const Main = () => {
 
   const initialState = {
     activeTab: TabName.DEPOSITS,
+    currentOption: ``,
+    isFormShowed: false,
+    isFormSubmitted: false,
+    price: 2000000,
+    initialFee: 200000,
+    invalidPrice: false,
+    invalidYears: false,
+    initialFeeInPercent: 10,
+    years: 5
   };
 
   const [state, setState] = useState(initialState);
 
   const calculator = useRef();
   const offices = useRef();
+  const form = useRef();
+  const successPopup = useRef();
+  const initialFeeRange = useRef();
+  const yearsRange = useRef();
+
+  useEffect(() => {
+    if (state.isFormShowed) {
+      form.current.scrollIntoView(smoothScroll);
+    }
+    if (state.isFormSubmitted) {
+      successPopup.current.focus();
+    }
+  });
 
   const scrollToCalculator = () => {
-    calculator.current.scrollIntoView({behavior: `smooth`});
+    calculator.current.scrollIntoView(smoothScroll);
   };
 
   const scrollToOffices = () => {
-    offices.current.scrollIntoView({behavior: `smooth`});
+    offices.current.scrollIntoView(smoothScroll);
   };
 
   const tabHandler = (evt) => {
     setState({
       ...state,
       activeTab: evt.target.dataset.tabName,
+    });
+  };
+
+  const createCustomDropdownIndicator = ({innerProps}) => {
+    return <div className="main__dropdown-indicator" {...innerProps}></div>;
+  };
+
+  const setCurrentOption = (option) => {
+    setState({
+      ...state,
+      currentOption: option.value,
+    });
+  };
+
+  const setIsFormShowed = () => {
+    setState({
+      ...state,
+      isFormShowed: true,
+      isFormSubmitted: initialState.isFormSubmitted
+    });
+  };
+
+  const closePopupSuccess = () => {
+    setState({
+      ...state,
+      isFormSubmitted: initialState.isFormSubmitted
+    });
+    document.body.classList.toggle(`popup-opened`);
+  };
+
+  const onKeyDownHandler = (evt) => {
+    if (evt.keyCode === ESCAPE_KEYCODE) {
+      setState({
+        ...state,
+        isFormSubmitted: initialState.isFormSubmitted
+      });
+      document.body.classList.toggle(`popup-opened`);
+    }
+  };
+
+  const formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    setState({
+      ...state,
+      isFormShowed: false,
+      isFormSubmitted: true
+    });
+    document.body.classList.toggle(`popup-opened`);
+  };
+
+  const priceHandler = (_evt, _maskedValue, floatValue) => {
+    if (floatValue < 1200000 || floatValue > 25000000) {
+      setState({
+        ...state,
+        invalidPrice: true,
+        price: floatValue,
+      });
+    } else {
+      setState({
+        ...state,
+        invalidPrice: false,
+        price: floatValue,
+        initialFee: floatValue / 10,
+      });
+    }
+    initialFeeRange.current.value = initialState.initialFeeInPercent;
+  };
+
+  const initialFeeHandler = (_evt, _maskedValue, floatValue) => {
+    setState({
+      ...state,
+      initialFee: floatValue,
+    });
+    initialFeeRange.current.value = floatValue * 100 / state.price;
+  };
+
+  const incrementPrice = () => {
+    if ((state.price + 100000) <= 25000000) {
+      setState({
+        ...state,
+        price: state.price + 100000,
+        initialFee: (state.price + 100000) / 10,
+      });
+    }
+    initialFeeRange.current.value = initialState.initialFeeInPercent;
+  };
+
+  const decrementPrice = () => {
+    if ((state.price - 100000) >= 1200000) {
+      setState({
+        ...state,
+        price: state.price - 100000,
+        initialFee: (state.price - 100000) / 10,
+      });
+    }
+    initialFeeRange.current.value = initialState.initialFeeInPercent;
+  };
+
+  const initialFeeRangeHandler = (evt) => {
+    setState({
+      ...state,
+      initialFee: state.price * evt.target.value / 100,
+    });
+  };
+
+  const yearsHandler = (_evt, _maskedValue, floatValue) => {
+    if (floatValue > 30 || floatValue < 5) {
+      setState({
+        ...state,
+        invalidYears: true,
+        years: floatValue,
+      });
+    } else {
+      setState({
+        ...state,
+        invalidYears: false,
+        years: floatValue,
+      });
+    }
+    yearsRange.current.value = floatValue;
+  };
+
+  const yearsRangeHandler = (evt) => {
+    setState({
+      ...state,
+      invalidYears: false,
+      years: evt.target.value,
     });
   };
 
@@ -240,39 +413,55 @@ const Main = () => {
           <h2>Кредитный калькулятор</h2>
           <div className="main__calculator-target">
             <h3>Шаг 1. Цель кредита</h3>
-            <Select placeholder={`Выберите цель кредита`} options={options} styles={customStyles} />
+            <Select
+              onChange={setCurrentOption}
+              placeholder={PLACEHOLDER}
+              options={options}
+              styles={customStyles}
+              components={{DropdownIndicator: createCustomDropdownIndicator}}
+            />
           </div>
-          <div className="main__calculator-parameters">
+          {state.currentOption && <div className="main__calculator-parameters">
             <h3>Шаг 2. Введите параметры кредита</h3>
             <label htmlFor="price">Стоимость недвижимости</label>
             <div className="main__calculator-parameters-price">
-              <input type="text" name="price" id="price" defaultValue="2 000 000 рублей"/>
-              <button className="main__calculator-price-button main__calculator-price-button--minus"></button>
-              <button className="main__calculator-price-button main__calculator-price-button--plus"></button>
+              {state.invalidPrice && <p>Некорректное значение</p>}
+              <CurrencyInput
+                className={state.invalidPrice ? `main__invalid-input` : ``}
+                value={state.price}
+                onChangeEvent={priceHandler}
+                suffix=" рублей"
+                precision="0"
+                thousandSeparator=" "
+              />
+              <button onClick={decrementPrice} className="main__calculator-price-button main__calculator-price-button--minus"></button>
+              <button onClick={incrementPrice} className="main__calculator-price-button main__calculator-price-button--plus"></button>
             </div>
-            <p>От 1 200 000  до 25 000 000 рублей</p>
+            <p className={state.invalidPrice ? `main__invalid-input-prompt` : ``}>От 1 200 000  до 25 000 000 рублей</p>
             <label htmlFor="initial-fee">Первоначальный взнос</label>
-            <input type="text" name="initial-fee" id="initial-fee" defaultValue="200 000 рублей"/>
-            <div className="main__calculator-line">
-              <div className="main__calculator-pin"></div>
-              <div className="main__calculator-depth"></div>
-            </div>
+            <CurrencyInput value={state.initialFee} onChangeEvent={initialFeeHandler} suffix=" рублей" precision="0" thousandSeparator=" "/>
+            <input ref={initialFeeRange} onChange={initialFeeRangeHandler} defaultValue={state.initialFeeInPercent} type="range" min='10' max="100" name="price-range" id="price-range" step="5"/>
             <p>10%</p>
             <label htmlFor="credit-term">Срок кредитования</label>
-            <input type="text" name="credit-term" id="credit-term" defaultValue="5 лет"/>
-            <div className="main__calculator-line">
-              <div className="main__calculator-pin"></div>
-              <div className="main__calculator-depth"></div>
-            </div>
+            {state.invalidYears && <p className="main__invalid-years-message">Некорректное значение</p>}
+            <CurrencyInput
+              className={state.invalidYears ? `main__invalid-input` : ``}
+              value={state.years}
+              onChangeEvent={yearsHandler}
+              suffix=" лет"
+              precision="0"
+              thousandSeparator=" "
+            />
+            <input ref={yearsRange} defaultValue={state.years} onChange={yearsRangeHandler} type="range" min='5' max="30" name="years-range" id="years-range" step="1"/>
             <div className="main__calculator-years">
-              <p>5 лет</p>
-              <p>30 лет</p>
+              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>5 лет</p>
+              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>30 лет</p>
             </div>
             <input type="checkbox" name="maternal-capital" id="maternal-capital" />
             <label htmlFor="maternal-capital">Использовать материнский капитал</label>
-          </div>
+          </div>}
         </div>
-        <div className="main__calculator-popup">
+        {state.currentOption && <div className="main__calculator-popup">
           <div className="main__calculator-offer">
             <p className="main__calculator-offer-title">Наше предложение</p>
             <div className="main__calculator-offer-wrapper">
@@ -293,16 +482,16 @@ const Main = () => {
                 <p className="main__calculator-offer-description">Необходимый доход</p>
               </div>
             </div>
-            <button type="button">Оформить заявку</button>
+            <button onClick={setIsFormShowed} type="button">Оформить заявку</button>
           </div>
           <div className="main__calculator-reject">
             <p className="main__calculator-offer-title">Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.</p>
             <p className="main__calculator-offer-description">Попробуйте использовать другие параметры для расчёта.</p>
           </div>
-        </div>
+        </div>}
       </section>
-      <section className="main__form">
-        <form action="https://echo.htmlacademy.ru">
+      {state.isFormShowed && <section className="main__form" ref={form}>
+        <form onSubmit={formSubmitHandler} action="https://echo.htmlacademy.ru">
           <h3>Шаг 3. Оформление заявки</h3>
           <ul>
             <li>
@@ -336,7 +525,14 @@ const Main = () => {
           </div>
           <button type="submit">Отправить</button>
         </form>
-      </section>
+      </section>}
+      {state.isFormSubmitted && <div onKeyDown={onKeyDownHandler} tabIndex={1} ref={successPopup} className="main__popup-success-overlay">
+        <div className="main__popup-success">
+          <button onClick={closePopupSuccess} type="button"></button>
+          <p className="main__calculator-offer-title">Спасибо за обращение в наш банк.</p>
+          <p className="main__calculator-offer-description">Наш менеджер скоро свяжется с вами по указанному номеру телефона.</p>
+        </div>
+      </div>}
       <section ref={offices} className="main__offices">
         <div className="main__offices-map">
           <h2>Отделения Лига Банка</h2>
