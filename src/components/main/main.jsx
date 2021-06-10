@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import CurrencyInput from 'react-currency-input';
+import InputMask from 'react-input-mask';
 import Select from 'react-select';
 // import Swiper core and required modules
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
@@ -162,6 +163,8 @@ const customStyles = {
   }),
 };
 
+const initialPrice = 2000000;
+
 const Main = () => {
 
   const initialState = {
@@ -169,13 +172,24 @@ const Main = () => {
     currentOption: ``,
     isFormShowed: false,
     isFormSubmitted: false,
-    price: 2000000,
-    initialFee: 200000,
+    price: initialPrice,
+    initialFee: initialPrice * 10 / 100,
     invalidPrice: false,
     invalidYears: false,
+    invalidInitialFee: false,
     initialFeeInPercent: 10,
-    years: 5
+    years: 5,
+    isMaternalCapital: false,
+    initialFormNumber: 10,
   };
+
+  const initialLocalStorage = {
+    fullName: localStorage.getItem(`full-name`) ? localStorage.getItem(`full-name`) : ``,
+    phone: localStorage.getItem(`phone`) ? localStorage.getItem(`phone`) : ``,
+    email: localStorage.getItem(`email`) ? localStorage.getItem(`email`) : ``,
+  };
+
+  const [storage] = useState(initialLocalStorage);
 
   const [state, setState] = useState(initialState);
 
@@ -187,13 +201,23 @@ const Main = () => {
   const yearsRange = useRef();
 
   useEffect(() => {
-    if (state.isFormShowed) {
-      form.current.scrollIntoView(smoothScroll);
-    }
     if (state.isFormSubmitted) {
       successPopup.current.focus();
     }
   });
+
+  useEffect(() => {
+    if (state.isFormShowed) {
+      form.current.scrollIntoView(smoothScroll);
+    }
+  }, [state.isFormShowed]);
+
+  useEffect(() => {
+    if (state.currentOption) {
+      initialFeeRange.current.value = initialState.initialFeeInPercent;
+      yearsRange.current.value = 1;
+    }
+  }, [state.currentOption]);
 
   const scrollToCalculator = () => {
     calculator.current.scrollIntoView(smoothScroll);
@@ -215,10 +239,30 @@ const Main = () => {
   };
 
   const setCurrentOption = (option) => {
-    setState({
-      ...state,
-      currentOption: option.value,
-    });
+    switch (option.value) {
+      case availableCredits.HOUSE_CREDIT: {
+        setState({
+          ...state,
+          currentOption: option.value,
+          price: initialPrice,
+          initialFee: initialPrice * 10 / 100,
+          initialFeeInPercent: 10,
+          years: initialState.years
+        });
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        setState({
+          ...state,
+          currentOption: option.value,
+          price: initialPrice,
+          initialFee: initialPrice * 20 / 100,
+          initialFeeInPercent: 20,
+          years: initialState.years
+        });
+        break;
+      }
+    }
   };
 
   const setIsFormShowed = () => {
@@ -227,6 +271,9 @@ const Main = () => {
       isFormShowed: true,
       isFormSubmitted: initialState.isFormSubmitted
     });
+    if (state.isFormShowed) {
+      form.current.scrollIntoView(smoothScroll);
+    }
   };
 
   const closePopupSuccess = () => {
@@ -252,81 +299,195 @@ const Main = () => {
     setState({
       ...state,
       isFormShowed: false,
-      isFormSubmitted: true
+      isFormSubmitted: true,
+      initialFormNumber: state.initialFormNumber + 1,
     });
     document.body.classList.toggle(`popup-opened`);
+    localStorage.clear();
   };
 
   const priceHandler = (_evt, _maskedValue, floatValue) => {
-    if (floatValue < 1200000 || floatValue > 25000000) {
-      setState({
-        ...state,
-        invalidPrice: true,
-        price: floatValue,
-      });
-    } else {
-      setState({
-        ...state,
-        invalidPrice: false,
-        price: floatValue,
-        initialFee: floatValue / 10,
-      });
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        if (floatValue < 1200000 || floatValue > 25000000) {
+          setState({
+            ...state,
+            invalidPrice: true,
+            price: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: floatValue,
+            initialFee: floatValue / 10,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        if (floatValue < 500000 || floatValue > 5000000) {
+          setState({
+            ...state,
+            invalidPrice: true,
+            price: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: floatValue,
+            initialFee: floatValue * 20 / 100,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
     }
-    initialFeeRange.current.value = initialState.initialFeeInPercent;
   };
 
   const initialFeeHandler = (_evt, _maskedValue, floatValue) => {
-    setState({
-      ...state,
-      initialFee: floatValue,
-    });
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        if (floatValue < (state.price / 10)) {
+          setState({
+            ...state,
+            invalidInitialFee: true,
+            initialFee: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidInitialFee: false,
+            initialFee: floatValue,
+          });
+        }
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        if (floatValue < (state.price * 20 / 100)) {
+          setState({
+            ...state,
+            invalidInitialFee: true,
+            initialFee: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidInitialFee: false,
+            initialFee: floatValue,
+          });
+        }
+        break;
+      }
+    }
     initialFeeRange.current.value = floatValue * 100 / state.price;
-  };
-
-  const incrementPrice = () => {
-    if ((state.price + 100000) <= 25000000) {
-      setState({
-        ...state,
-        price: state.price + 100000,
-        initialFee: (state.price + 100000) / 10,
-      });
-    }
-    initialFeeRange.current.value = initialState.initialFeeInPercent;
-  };
-
-  const decrementPrice = () => {
-    if ((state.price - 100000) >= 1200000) {
-      setState({
-        ...state,
-        price: state.price - 100000,
-        initialFee: (state.price - 100000) / 10,
-      });
-    }
-    initialFeeRange.current.value = initialState.initialFeeInPercent;
   };
 
   const initialFeeRangeHandler = (evt) => {
     setState({
       ...state,
+      invalidInitialFee: false,
       initialFee: state.price * evt.target.value / 100,
     });
   };
 
-  const yearsHandler = (_evt, _maskedValue, floatValue) => {
-    if (floatValue > 30 || floatValue < 5) {
-      setState({
-        ...state,
-        invalidYears: true,
-        years: floatValue,
-      });
-    } else {
-      setState({
-        ...state,
-        invalidYears: false,
-        years: floatValue,
-      });
+  const incrementPrice = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        if ((state.price + 100000) <= 25000000 && (state.price + 100000 >= 1200000)) {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: state.price + 100000,
+            initialFee: (state.price + 100000) / 10,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        if ((state.price + 50000) <= 5000000 && (state.price + 50000 >= 500000)) {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: state.price + 50000,
+            initialFee: (state.price + 50000) * 20 / 100,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
     }
-    yearsRange.current.value = floatValue;
+  };
+
+  const decrementPrice = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        if ((state.price - 100000) >= 1200000 && (state.price - 100000) <= 25000000) {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: state.price - 100000,
+            initialFee: (state.price - 100000) / 10,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        if ((state.price - 50000) >= 500000 && (state.price - 50000 <= 5000000)) {
+          setState({
+            ...state,
+            invalidPrice: false,
+            price: state.price - 50000,
+            initialFee: (state.price - 50000) * 20 / 100,
+          });
+        }
+        initialFeeRange.current.value = initialState.initialFeeInPercent;
+        break;
+      }
+    }
+  };
+
+  const yearsHandler = (_evt, _maskedValue, floatValue) => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        if (floatValue > 30 || floatValue < 5) {
+          setState({
+            ...state,
+            invalidYears: true,
+            years: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidYears: false,
+            years: floatValue,
+          });
+        }
+        yearsRange.current.value = floatValue;
+        break;
+      }
+      case availableCredits.CAR_CREDIT: {
+        if (floatValue > 5 || floatValue < 1) {
+          setState({
+            ...state,
+            invalidYears: true,
+            years: floatValue,
+          });
+        } else {
+          setState({
+            ...state,
+            invalidYears: false,
+            years: floatValue,
+          });
+        }
+        yearsRange.current.value = floatValue;
+        break;
+      }
+    }
   };
 
   const yearsRangeHandler = (evt) => {
@@ -335,6 +496,139 @@ const Main = () => {
       invalidYears: false,
       years: evt.target.value,
     });
+  };
+
+  const maternalCapitalHandler = (evt) => {
+    setState({
+      ...state,
+      isMaternalCapital: evt.target.checked
+    });
+  };
+
+  const countCreditAmount = () => {
+    return (state.isMaternalCapital ? state.price - state.initialFee - 470000 : state.price - state.initialFee).toFixed();
+  };
+
+  const countPercentRate = () => {
+    return (state.initialFee * 100 / state.price) < 15 ? `9,40%` : `8,50%`;
+  };
+
+  const countAnnuityPayment = () => {
+    let monthlyPercentRate = (state.initialFee * 100 / state.price) < 15 ? 9.40 / 100 / 12 : 8.50 / 100 / 12;
+    return (countCreditAmount() * (monthlyPercentRate + (monthlyPercentRate / ((Math.pow(1 + monthlyPercentRate, state.years * 12)) - 1)))).toFixed();
+  };
+
+  const countRequiredIncome = () => {
+    return (countAnnuityPayment() * 100 / 45).toFixed();
+  };
+
+  const returnCreditTarget = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return `Ипотека`;
+      }
+      case availableCredits.CAR_CREDIT: {
+        return `Автомобиль`;
+      }
+    }
+    return ``;
+  };
+
+  const returnPrice = (price) => {
+    let separatedPrice = price.toFixed().split(``).reverse();
+    for (let i = 3; i < separatedPrice.length; i = i + 4) {
+      separatedPrice.splice(i, 0, ` `);
+    }
+    return separatedPrice.reverse().join(``);
+  };
+
+  const setLocalStorageItems = (evt) => {
+    switch (evt.target.name) {
+      case `full-name`: {
+        localStorage.setItem(`full-name`, evt.target.value);
+        break;
+      }
+      case `phone`: {
+        localStorage.setItem(`phone`, evt.target.value);
+        break;
+      }
+      case `email`: {
+        localStorage.setItem(`email`, evt.target.value);
+        break;
+      }
+    }
+  };
+
+  const returnCreditOption = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return `недвижимости`;
+      }
+      case availableCredits.CAR_CREDIT: {
+        return `автомобиля`;
+      }
+    }
+    return ``;
+  };
+
+  const returnPriceRange = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return {
+          min: `1 200 000`,
+          max: `25 000 000`
+        };
+      }
+      case availableCredits.CAR_CREDIT: {
+        return {
+          min: `500 000`,
+          max: `5 000 000`
+        };
+      }
+    }
+    return ``;
+  };
+
+  const returnMinCreditAmount = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return 500000;
+      }
+      case availableCredits.CAR_CREDIT: {
+        return 200000;
+      }
+    }
+    return ``;
+  };
+
+  const returnCreditname = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return `ипотечные`;
+      }
+      case availableCredits.CAR_CREDIT: {
+        return `автомобильные`;
+      }
+    }
+    return ``;
+  };
+
+  const returnYearsRange = () => {
+    switch (state.currentOption) {
+      case availableCredits.HOUSE_CREDIT: {
+        return {
+          min: 5,
+          max: 30
+        };
+      }
+      case availableCredits.CAR_CREDIT: {
+        return {
+          min: 1,
+          max: 5
+        };
+      }
+    }
+    return ``;
   };
 
   return (
@@ -423,7 +717,7 @@ const Main = () => {
           </div>
           {state.currentOption && <div className="main__calculator-parameters">
             <h3>Шаг 2. Введите параметры кредита</h3>
-            <label htmlFor="price">Стоимость недвижимости</label>
+            <label htmlFor="price">{`Стоимость ${returnCreditOption()}`}</label>
             <div className="main__calculator-parameters-price">
               {state.invalidPrice && <p>Некорректное значение</p>}
               <CurrencyInput
@@ -437,11 +731,19 @@ const Main = () => {
               <button onClick={decrementPrice} className="main__calculator-price-button main__calculator-price-button--minus"></button>
               <button onClick={incrementPrice} className="main__calculator-price-button main__calculator-price-button--plus"></button>
             </div>
-            <p className={state.invalidPrice ? `main__invalid-input-prompt` : ``}>От 1 200 000  до 25 000 000 рублей</p>
+            <p className={state.invalidPrice ? `main__invalid-input-prompt` : ``}>{`От ${returnPriceRange().min}  до ${returnPriceRange().max} рублей`}</p>
             <label htmlFor="initial-fee">Первоначальный взнос</label>
-            <CurrencyInput value={state.initialFee} onChangeEvent={initialFeeHandler} suffix=" рублей" precision="0" thousandSeparator=" "/>
-            <input ref={initialFeeRange} onChange={initialFeeRangeHandler} defaultValue={state.initialFeeInPercent} type="range" min='10' max="100" name="price-range" id="price-range" step="5"/>
-            <p>10%</p>
+            {state.invalidInitialFee && <p className="main__invalid-initial-fee-message">Некорректное значение</p>}
+            <CurrencyInput
+              className={state.invalidInitialFee ? `main__invalid-input` : ``}
+              value={state.initialFee}
+              onChangeEvent={initialFeeHandler}
+              suffix=" рублей"
+              precision="0"
+              thousandSeparator=" "
+            />
+            <input ref={initialFeeRange} onChange={initialFeeRangeHandler} defaultValue={state.initialFeeInPercent} type="range" min={state.initialFeeInPercent} max="100" name="price-range" id="price-range" step="5"/>
+            <p className={state.invalidInitialFee ? `main__invalid-input-prompt` : ``}>{`${state.initialFeeInPercent}%`}</p>
             <label htmlFor="credit-term">Срок кредитования</label>
             {state.invalidYears && <p className="main__invalid-years-message">Некорректное значение</p>}
             <CurrencyInput
@@ -452,42 +754,58 @@ const Main = () => {
               precision="0"
               thousandSeparator=" "
             />
-            <input ref={yearsRange} defaultValue={state.years} onChange={yearsRangeHandler} type="range" min='5' max="30" name="years-range" id="years-range" step="1"/>
+            <input ref={yearsRange} defaultValue={state.years} onChange={yearsRangeHandler} type="range" min={returnYearsRange().min} max={returnYearsRange().max} name="years-range" id="years-range" step="1"/>
             <div className="main__calculator-years">
-              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>5 лет</p>
-              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>30 лет</p>
+              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>{returnYearsRange().min > 4 ? `${returnYearsRange().min} лет` : `${returnYearsRange().min} год`}</p>
+              <p className={state.invalidYears ? `main__invalid-input-prompt` : ``}>{returnYearsRange().max > 4 ? `${returnYearsRange().max} лет` : `${returnYearsRange().max} год`}</p>
             </div>
-            <input type="checkbox" name="maternal-capital" id="maternal-capital" />
-            <label htmlFor="maternal-capital">Использовать материнский капитал</label>
+            {state.currentOption === availableCredits.HOUSE_CREDIT &&
+            <React.Fragment>
+              <input onChange={maternalCapitalHandler} type="checkbox" name="maternal-capital" id="maternal-capital" />
+              <label className="main__label-checkbox" htmlFor="maternal-capital">Использовать материнский капитал</label>
+            </React.Fragment>
+            }
+            {state.currentOption === availableCredits.CAR_CREDIT &&
+            <React.Fragment>
+              <input type="checkbox" name="complex-insurance" id="complex-insurance" />
+              <label className="main__label-checkbox" htmlFor="complex-insurance">Оформить КАСКО в нашем банке</label>
+              <input type="checkbox" name="life-insurance" id="life-insurance" />
+              <label className="main__label-checkbox" htmlFor="life-insurance">Оформить Страхование жизни в нашем банке</label>
+            </React.Fragment>
+            }
           </div>}
         </div>
-        {state.currentOption && <div className="main__calculator-popup">
-          <div className="main__calculator-offer">
+        {state.invalidPrice === false &&
+        state.invalidInitialFee === false &&
+        state.invalidYears === false &&
+        state.currentOption !== `` &&
+        <div className="main__calculator-popup">
+          {countCreditAmount() >= returnMinCreditAmount() && <div className="main__calculator-offer">
             <p className="main__calculator-offer-title">Наше предложение</p>
             <div className="main__calculator-offer-wrapper">
               <div className="main__calculator-offer-item">
-                <p className="main__calculator-offer-title">1 330 000 рублей</p>
+                <p className="main__calculator-offer-title">{`${countCreditAmount()} рублей`}</p>
                 <p className="main__calculator-offer-description">Сумма ипотеки</p>
               </div>
               <div className="main__calculator-offer-item">
-                <p className="main__calculator-offer-title">9,40%</p>
+                <p className="main__calculator-offer-title">{countPercentRate()}</p>
                 <p className="main__calculator-offer-description">Процентная ставка</p>
               </div>
               <div className="main__calculator-offer-item">
-                <p className="main__calculator-offer-title">27 868 рублей</p>
+                <p className="main__calculator-offer-title">{`${countAnnuityPayment()} рублей`}</p>
                 <p className="main__calculator-offer-description">Ежемесячный платеж</p>
               </div>
               <div className="main__calculator-offer-item">
-                <p className="main__calculator-offer-title">61 929 рублей</p>
+                <p className="main__calculator-offer-title">{`${countRequiredIncome()} рублей`}</p>
                 <p className="main__calculator-offer-description">Необходимый доход</p>
               </div>
             </div>
             <button onClick={setIsFormShowed} type="button">Оформить заявку</button>
-          </div>
-          <div className="main__calculator-reject">
-            <p className="main__calculator-offer-title">Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.</p>
+          </div>}
+          {countCreditAmount() < returnMinCreditAmount() && <div className="main__calculator-reject">
+            <p className="main__calculator-offer-title">{`Наш банк не выдаёт ${returnCreditname()} кредиты меньше ${returnMinCreditAmount()} рублей.`}</p>
             <p className="main__calculator-offer-description">Попробуйте использовать другие параметры для расчёта.</p>
-          </div>
+          </div>}
         </div>}
       </section>
       {state.isFormShowed && <section className="main__form" ref={form}>
@@ -496,32 +814,41 @@ const Main = () => {
           <ul>
             <li>
               <p>Номер заявки</p>
-              <p>№ 0010</p>
+              <p>{`№ 00${state.initialFormNumber}`}</p>
             </li>
             <li>
               <p>Цель кредита</p>
-              <p>Ипотека</p>
+              <p>{returnCreditTarget()}</p>
             </li>
             <li>
               <p>Стоимость недвижимости</p>
-              <p>2 000 000 рублей</p>
+              <p>{`${returnPrice(state.price)} рублей`}</p>
             </li>
             <li>
               <p>Первоначальный взнос</p>
-              <p>200 000 рублей</p>
+              <p>{`${returnPrice(state.initialFee)} рублей`}</p>
             </li>
             <li>
               <p>Срок кредитования</p>
-              <p>5 лет</p>
+              <p>{`${state.years} лет`}</p>
             </li>
           </ul>
           <label htmlFor="full-name"></label>
-          <input type="text" name="full-name" id="full-name" placeholder="ФИО"/>
+          <input onChange={setLocalStorageItems} defaultValue={storage.fullName} type="text" name="full-name" id="full-name" placeholder="ФИО" autoFocus={true} required/>
           <div className="main__form-contacts">
             <label htmlFor="phone"></label>
-            <input type="tel" name="phone" id="phone" placeholder="Телефон"/>
+            <InputMask
+              mask="+7(999)-999-9999"
+              onChange={setLocalStorageItems}
+              defaultValue={storage.phone}
+              type="tel"
+              name="phone"
+              id="phone"
+              placeholder="Телефон"
+              required={true}
+            />
             <label htmlFor="email"></label>
-            <input type="email" name="email" id="email" placeholder="E-mail"/>
+            <input onChange={setLocalStorageItems} defaultValue={storage.email} type="email" name="email" id="email" placeholder="E-mail" required/>
           </div>
           <button type="submit">Отправить</button>
         </form>
