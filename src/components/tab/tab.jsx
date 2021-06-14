@@ -22,7 +22,15 @@ const Tab = ({data}) => {
 };
 
 Tab.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    features: PropTypes.arrayOf(PropTypes.string),
+    image: PropTypes.string,
+    imageMobile: PropTypes.string,
+    imageTablet: PropTypes.string,
+    isButton: PropTypes.bool,
+    isLink: PropTypes.bool,
+    title: PropTypes.string
+  }),
 };
 
 export default Tab;

@@ -9,14 +9,14 @@ const ESCAPE_KEYCODE = 27;
 
 const Header = () => {
 
-  const passwordRef = useRef();
-
   const initialState = {
     isLoginModalOpen: false,
     isMenuOpened: false
   };
 
   const [state, setState] = useState(initialState);
+
+  const passwordRef = useRef();
 
   const handleLoginPopup = () => {
     if (!state.isMenuOpened) {

@@ -108,7 +108,7 @@ export const mockTabsData = {
 export const customStyles = {
   indicatorsContainer: (provided, state) => ({
     ...provided,
-    "transform": state.menuIsOpen ? `rotate(180deg)` : `rotate(0deg)`,
+    "transform": state.selectProps.menuIsOpen ? `rotate(180deg)` : `rotate(0deg)`,
     "marginRight": 22,
     "@media (max-width: 767.2px)": {
       ...provided[`@media only screen and (max-width: 767.2px)`],
@@ -188,12 +188,8 @@ export const returnCreditTarget = (currentOption) => {
 
 
 export const returnSeparatedPrice = (price) => {
-  let separatedPrice;
-  if (typeof price === `string`) {
-    separatedPrice = price.split(``).reverse();
-  } else {
-    separatedPrice = price.toFixed().split(``).reverse();
-  }
+  let separatedPrice = typeof price === `string` ? price.split(``).reverse() : price.toFixed().split(``).reverse();
+
   for (let i = PRICE_SEPARATOR; i < separatedPrice.length; i = i + PRICE_SEPARATOR + 1) {
     separatedPrice.splice(i, 0, ` `);
   }

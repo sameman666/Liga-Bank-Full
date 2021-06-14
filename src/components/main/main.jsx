@@ -442,6 +442,7 @@ const Main = () => {
         </Swiper>
       </section>
       <section className="main__tabs">
+        <h2 className="visually-hidden">Услуги</h2>
         <div className="main__tabs-buttons">
           <button onClick={tabHandler} className={`main__tabs-button main__tabs-button--vault ${state.activeTab === TabName.DEPOSITS ? `main__tabs-button--active` : ``}`} data-tab-name={TabName.DEPOSITS} type="button">Вклады</button>
           <button onClick={tabHandler} className={`main__tabs-button main__tabs-button--cards ${state.activeTab === TabName.CREDITS ? `main__tabs-button--active` : ``}`} data-tab-name={TabName.CREDITS} type="button">Кредиты</button>
@@ -453,6 +454,7 @@ const Main = () => {
         </div>
       </section>
       <section className="main__swiper-service">
+        <h2 className="visually-hidden">Услуги</h2>
         <Swiper
           spaceBetween={0}
           slidesPerView={1}
@@ -497,6 +499,8 @@ const Main = () => {
                 suffix={` ${returnCurrencyText(state.price)}`}
                 precision="0"
                 thousandSeparator=" "
+                name="price"
+                id="price"
               />
               <button onClick={decrementPrice} className="main__calculator-price-button main__calculator-price-button--minus"></button>
               <button onClick={incrementPrice} className="main__calculator-price-button main__calculator-price-button--plus"></button>
@@ -511,6 +515,8 @@ const Main = () => {
               suffix={` ${returnCurrencyText(state.initialFee)}`}
               precision="0"
               thousandSeparator=" "
+              name="initial-fee"
+              id="initial-fee"
             />
             <input className="main__range" ref={initialFeeRange} onChange={initialFeeRangeHandler} defaultValue={state.initialFeeInPercent} type="range" min={state.initialFeeInPercent} max="100" name="price-range" id="price-range" step="5"/>
             <p className={state.invalidInitialFee ? `main__invalid-input-prompt` : ``}>{`${state.initialFeeInPercent}%`}</p>
@@ -523,6 +529,8 @@ const Main = () => {
               suffix={returnYearsText(state.years)}
               precision="0"
               thousandSeparator=" "
+              name="credit-term"
+              id="credit-term"
             />
             <input className="main__range main__range--last" ref={yearsRange} defaultValue={state.years} onChange={yearsRangeHandler} type="range" min={returnYearsRange(state.currentOption).min} max={returnYearsRange(state.currentOption).max} name="years-range" id="years-range" step="1"/>
             <div className="main__calculator-years">
