@@ -130,12 +130,21 @@
     @include mobile {
       width: 290px;
       min-height: 43px;
+      font-size: 14px;
     }
+  }
+
+  button:hover {
+    background: darken(#2C36F2, 10%);
   }
 
   a {
     font-weight: 500;
     color: #1F1E25;
     text-decoration: underline;
+  }
+
+  a:hover {
+    color: #2C36F2;
   }
 }

@@ -13,12 +13,15 @@ const Header = () => {
 
   const initialState = {
     isLoginModalOpen: false,
+    isMenuOpened: false
   };
 
   const [state, setState] = useState(initialState);
 
   const handleLoginPopup = () => {
-    document.body.classList.toggle(`popup-opened`);
+    if (!state.isMenuOpened) {
+      document.body.classList.toggle(`popup-opened`);
+    }
     setState({
       ...state,
       isLoginModalOpen: !state.isLoginModalOpen,
@@ -49,10 +52,18 @@ const Header = () => {
     handleLoginPopup();
   };
 
+  const menuHandler = () => {
+    document.body.classList.toggle(`popup-opened`);
+    setState({
+      ...state,
+      isMenuOpened: !state.isMenuOpened,
+    });
+  };
+
   return (
-    <header className="header">
+    <header className={`header ${state.isMenuOpened ? `header--menu-opened` : ``}`}>
       <div className="header__wrapper">
-        <button className="header__menu-button"></button>
+        <button onClick={menuHandler} className="header__menu-button"></button>
         <a href="#">
           <picture>
             <source srcSet={logoMobile} media="(max-width: 767.2px)" />
@@ -60,7 +71,7 @@ const Header = () => {
             <img src={logo} alt="Лига Банк" />
           </picture>
         </a>
-        <button className="header__close-menu-button"></button>
+        <button onClick={menuHandler} className="header__close-menu-button"></button>
         <div className="header__menu">
           <nav className="header__navigation">
             <a href="#">Услуги</a>
