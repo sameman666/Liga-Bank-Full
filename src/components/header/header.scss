@@ -26,7 +26,7 @@
 
     @include mobile {
       margin-top: 15px;
-      margin-left: 12px;
+      margin-left: 0;
     }
   }
 }
@@ -62,6 +62,10 @@
 
   @include mobile {
     display: block;
+  }
+
+  @include mobile {
+    margin-right: 12px;
   }
 }
 
@@ -117,21 +121,6 @@
   }
 }
 
-.header__login-link {
-  margin-top: 38px;
-  position: relative;
-  color: #1F1E25;
-  align-self: flex-start;
-
-  @include tablet {
-    display: none;
-  }
-}
-
-.header__login-link:hover {
-  color: #2C36F2;
-}
-
 .header__login-link-icon {
   display: block;
   width: 20px;
@@ -141,11 +130,24 @@
   background-image: url('./login.svg');
   position: absolute;
   top: 35px;
-  left: -30px;
+  left: -203px;
+
+  &::after {
+    content: "Войти в интернет банк";
+    position: absolute;
+    width: 171px;
+    left: 32px;
+    top: 3px;
+    color: #1F1E25;
+  }
 
   @include tablet {
     top: 23px;
     left: -50px;
+
+    &::after {
+      display: none;
+    }
   }
 
   @include mobile {
@@ -155,6 +157,11 @@
     background-size: contain;
     left: -14px;
   }
+}
+
+.header__login-link-icon:hover::after {
+  color: #2C36F2;
+  transition: 0.2s;
 }
 
 .header__close-menu-button {
@@ -178,6 +185,7 @@
     height: 100%;
     width: 100%;
     z-index: 2;
+    overflow-y: scroll;
 
     .header__wrapper {
       flex-wrap: wrap;
@@ -210,6 +218,7 @@
     .header__login {
       margin-left: 0;
       margin-right: 0;
+      min-height: 60px;
     }
 
     .header__login-link {

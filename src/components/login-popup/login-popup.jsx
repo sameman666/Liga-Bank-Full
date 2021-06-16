@@ -35,9 +35,9 @@ const LoginPopup = ({onLoginPopupHandler, onKeyDownHandler, passwordRef, onShowP
           </div>
           <form onSubmit={onFormSubmitHandler} action="https://echo.htmlacademy.ru">
             <label htmlFor="login">Логин</label>
-            <input onChange={setLocalStorageItems} defaultValue={state.login} type="text" name="login" id="login" autoFocus={true}/>
+            <input onChange={setLocalStorageItems} defaultValue={state.login} type="text" name="login" id="login" autoFocus={true} required/>
             <label htmlFor="password">Пароль</label>
-            <input onChange={setLocalStorageItems} defaultValue={state.password} type="password" name="password" id="password" ref={passwordRef}/>
+            <input onChange={setLocalStorageItems} defaultValue={state.password} type="password" name="password" id="password" ref={passwordRef} required/>
             <button onMouseDown={onShowPasswordHandler} onMouseUp={onHidePasswordHandler} type="button"></button>
             <a href="#">Забыли пароль?</a>
             <button type="submit">Войти</button>

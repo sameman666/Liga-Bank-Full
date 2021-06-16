@@ -8,11 +8,13 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer__wrapper">
         <div className="footer__links">
-          <picture>
-            <source srcSet={logoMobile} media="(max-width: 767.2px)" />
-            <source srcSet={logoTablet} media="(max-width: 1023.2px)" />
-            <img src={logo} alt="Лига Банк" />
-          </picture>
+          <a className="footer__logo" href="#">
+            <picture>
+              <source srcSet={logoMobile} media="(max-width: 767.2px)" width="116" height="19"/>
+              <source srcSet={logoTablet} media="(max-width: 1023.2px)" width="134" height="24"/>
+              <img src={logo} alt="Лига Банк" width="150" height="27"/>
+            </picture>
+          </a>
           <nav>
             <a href="#">Услуги</a>
             <a href="#">Рассчитать кредит</a>
@@ -31,10 +33,10 @@ const Footer = () => {
             <p>Бесплатный для всех городов России</p>
           </div>
           <div className="footer__social">
-            <a href="#" className="footer__social-link footer__social-link--facebook"></a>
-            <a href="#" className="footer__social-link footer__social-link--instagramm"></a>
-            <a href="#" className="footer__social-link footer__social-link--twitter"></a>
-            <a href="#" className="footer__social-link footer__social-link--youtube"></a>
+            <a href="#" className="footer__social-link footer__social-link--facebook" aria-label="facebook"></a>
+            <a href="#" className="footer__social-link footer__social-link--instagramm" aria-label="instagramm"></a>
+            <a href="#" className="footer__social-link footer__social-link--twitter" aria-label="twitter"></a>
+            <a href="#" className="footer__social-link footer__social-link--youtube" aria-label="youtube"></a>
           </div>
         </div>
       </div>

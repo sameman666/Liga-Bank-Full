@@ -432,6 +432,7 @@
   }
 
   input[type='checkbox'] + label::before {
+    cursor: pointer;
     content: "";
     position: absolute;
     width: 16px;
@@ -443,6 +444,9 @@
     border-radius: 2px;
   }
 
+  input[type='checkbox'] + label {
+    cursor: pointer;
+  }
 
   input[type='checkbox']:checked + label::after {
     content: "";

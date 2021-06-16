@@ -27,6 +27,15 @@
     color: #1F1E25;
   }
 
+  .footer__logo {
+    margin-right: 149px;
+
+    @include tablet {
+      display: flex;
+      margin-bottom: 0;
+    }
+  }
+
   a:hover {
     color: #2C36F2;
   }
@@ -132,6 +141,8 @@
 }
 
 .footer__contact {
+  display: flex;
+  flex-direction: column;
 
   @include tablet {
     margin-bottom: 9px;

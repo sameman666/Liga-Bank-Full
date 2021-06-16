@@ -63,12 +63,12 @@ const Header = () => {
   return (
     <header className={`header ${state.isMenuOpened ? `header--menu-opened` : ``}`}>
       <div className="header__wrapper">
-        <button onClick={menuHandler} className="header__menu-button"></button>
+        <button onClick={menuHandler} className="header__menu-button" aria-label="menu-button"></button>
         <a href="#">
           <picture>
-            <source srcSet={logoMobile} media="(max-width: 767.2px)" />
-            <source srcSet={logoTablet} media="(max-width: 1023.2px)" />
-            <img src={logo} alt="Лига Банк" />
+            <source srcSet={logoMobile} media="(max-width: 767.2px)" width="116" height="19"/>
+            <source srcSet={logoTablet} media="(max-width: 1023.2px)" width="134" height="24"/>
+            <img src={logo} alt="Лига Банк" width="150" height="27"/>
           </picture>
         </a>
         <button onClick={menuHandler} className="header__close-menu-button"></button>
@@ -80,8 +80,7 @@ const Header = () => {
             <a href="#">Контакты</a>
           </nav>
           <div className="header__login">
-            <a onClick={loginPopupHandler} href="#" className="header__login-link-icon"></a>
-            <a onClick={loginPopupHandler} href="#" className="header__login-link">Войти в Интернет банк</a>
+            <a onClick={loginPopupHandler} href="#" className="header__login-link-icon" aria-label="Войти в Интернет банк"></a>
           </div>
         </div>
       </div>
