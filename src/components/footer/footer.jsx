@@ -1,3 +1,4 @@
+import React from 'react';
 import './footer.scss';
 import logo from './logo.png';
 import logoMobile from './logo_mobile.png';

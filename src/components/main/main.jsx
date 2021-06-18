@@ -1,20 +1,24 @@
-/* eslint-disable no-console */
 import React, {useEffect, useRef, useState} from 'react';
 import CurrencyInput from 'react-currency-input';
 import InputMask from 'react-input-mask';
 import Select from 'react-select';
 import Tab from '../tab/tab';
-import {PLACEHOLDER, smoothScroll, ESCAPE_KEYCODE, TabName, mockTabsData, AvailableCredit, options, customStyles, INITIAL_PRICE, INITIAL_FEE_IN_PERCENT_FOR_HOUSE, INITIAL_FEE_IN_PERCENT_FOR_CAR, INITIAL_FORM_NUMBER, YEARS_FOR_HOUSE_MIN, YEARS_FOR_CAR_MIN, YEARS_FOR_HOUSE_MAX, YEARS_FOR_CAR_MAX, PRICE_FOR_CAR_MAX, PRICE_FOR_CAR_MIN, PRICE_FOR_HOUSE_MAX, PRICE_FOR_HOUSE_MIN, STEP_FOR_HOUSE_PRICE, STEP_FOR_CAR_PRICE, MATERNAL_CAPITAL, MIN_HOUSE_INITIAL_FEE_IN_PERCENT_FOR_LOWER_RATE, MIN_CAR_PRICE_FOR_LOWER_RATE, MONTHS_IN_YEAR, MIN_INCOME_IN_PERCENT, returnCreditTarget, MIN_RATE_FOR_HOUSE, MAX_RATE_FOR_HOUSE, RATE_FOR_CAR_DEFAULT, RATE_FOR_CAR_WITH_ALL_INSURANCE, RATE_FOR_CAR_WITH_HIGH_PRICE, RATE_FOR_CAR_WITH_SOME_INSURANCE, returnSeparatedPrice, setLocalStorageItems, returnCreditOption, returnPriceRange, returnMinCreditAmount, returnCreditname, returnYearsRange, returnYearsText, returnCreditTargetForPopup, DELAY_FOR_SLIDER, returnCurrencyText} from '../../utils/const';
-// import Swiper core and required modules
+import {PLACEHOLDER, smoothScroll, ESCAPE_KEYCODE, TabName, mockTabsData, AvailableCredit, options, customStyles, INITIAL_FORM_NUMBER, MIN_INCOME_IN_PERCENT, returnCreditTarget, returnSeparatedPrice, setLocalStorageItems, returnCreditOption, returnPriceRange, returnMinCreditAmount, returnCreditName, returnYearsRange, returnYearsText, returnCreditTargetForPopup, DELAY_FOR_SLIDER, returnCurrencyText} from '../../utils/const';
+import {Price, Rate, Fee, Year} from '../../utils/const';
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
 import 'swiper/components/pagination/pagination.scss';
-// Import Swiper React components
 import {Swiper, SwiperSlide} from 'swiper/react';
-// Import styles
 import 'swiper/swiper.scss';
 import './main.scss';
-// install Swiper modules
 SwiperCore.use([Autoplay, Pagination]);
+
+const {INITIAL_PRICE, PRICE_FOR_CAR_MAX, PRICE_FOR_CAR_MIN, PRICE_FOR_HOUSE_MAX, PRICE_FOR_HOUSE_MIN, MIN_CAR_PRICE_FOR_LOWER_RATE, STEP_FOR_HOUSE_PRICE, STEP_FOR_CAR_PRICE, MATERNAL_CAPITAL} = Price;
+
+const {MIN_RATE_FOR_HOUSE, MAX_RATE_FOR_HOUSE, RATE_FOR_CAR_DEFAULT, RATE_FOR_CAR_WITH_ALL_INSURANCE, RATE_FOR_CAR_WITH_HIGH_PRICE, RATE_FOR_CAR_WITH_SOME_INSURANCE} = Rate;
+
+const {INITIAL_FEE_IN_PERCENT_FOR_HOUSE, INITIAL_FEE_IN_PERCENT_FOR_CAR, MIN_HOUSE_INITIAL_FEE_IN_PERCENT_FOR_LOWER_RATE} = Fee;
+
+const {YEARS_FOR_HOUSE_MIN, YEARS_FOR_CAR_MIN, YEARS_FOR_HOUSE_MAX, YEARS_FOR_CAR_MAX, MONTHS_IN_YEAR} = Year;
 
 const Main = () => {
 
@@ -583,7 +587,7 @@ const Main = () => {
             <button onClick={setIsFormShowed} type="button">Оформить заявку</button>
           </div>}
           {countCreditAmount() < returnMinCreditAmount(state.currentOption) && <div className="main__calculator-reject">
-            <p className="main__calculator-offer-title">{`Наш банк не выдаёт ${returnCreditname(state.currentOption)}кредиты меньше ${returnMinCreditAmount(state.currentOption)} рублей.`}</p>
+            <p className="main__calculator-offer-title">{`Наш банк не выдаёт ${returnCreditName(state.currentOption)}кредиты меньше ${returnMinCreditAmount(state.currentOption)} рублей.`}</p>
             <p className="main__calculator-offer-description">Попробуйте использовать другие параметры для расчёта.</p>
           </div>}
         </div>}

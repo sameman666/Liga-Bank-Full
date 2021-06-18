@@ -1,3 +1,4 @@
+import React from 'react';
 import './login-popup.scss';
 import popupLogo from './popup_logo.png';
 import PropTypes from 'prop-types';
@@ -51,7 +52,9 @@ const LoginPopup = ({onLoginPopupHandler, onKeyDownHandler, passwordRef, onShowP
 LoginPopup.propTypes = {
   onLoginPopupHandler: PropTypes.func,
   onKeyDownHandler: PropTypes.func,
-  passwordRef: PropTypes.object,
+  passwordRef: PropTypes.shape({
+    current: PropTypes.object
+  }),
   onShowPasswordHandler: PropTypes.func,
   onHidePasswordHandler: PropTypes.func,
   onFormSubmitHandler: PropTypes.func

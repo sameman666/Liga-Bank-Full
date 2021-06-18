@@ -11,61 +11,73 @@ import piggyBank from '../components/tab/piggybank.jpg';
 import piggyBankMobile from '../components/tab/piggybank_mobile.jpg';
 import piggyBankTablet from '../components/tab/piggybank_tablet.jpg';
 
-export const INITIAL_PRICE = 2000000;
-export const ESCAPE_KEYCODE = 27;
-export const INITIAL_FEE_IN_PERCENT_FOR_HOUSE = 10;
-export const INITIAL_FEE_IN_PERCENT_FOR_CAR = 20;
-export const INITIAL_FORM_NUMBER = 11;
-export const YEARS_FOR_HOUSE_MIN = 5;
-export const YEARS_FOR_CAR_MIN = 1;
-export const YEARS_FOR_HOUSE_MAX = 30;
-export const YEARS_FOR_CAR_MAX = 5;
-export const PRICE_FOR_HOUSE_MIN = 1200000;
-export const PRICE_FOR_HOUSE_MAX = 25000000;
-export const PRICE_FOR_CAR_MIN = 500000;
-export const PRICE_FOR_CAR_MAX = 5000000;
-export const STEP_FOR_HOUSE_PRICE = 100000;
-export const STEP_FOR_CAR_PRICE = 50000;
-export const MATERNAL_CAPITAL = 470000;
-export const MIN_HOUSE_INITIAL_FEE_IN_PERCENT_FOR_LOWER_RATE = 15;
-export const MIN_CAR_PRICE_FOR_LOWER_RATE = 2000000;
-export const MONTHS_IN_YEAR = 12;
-export const MIN_INCOME_IN_PERCENT = 45;
-export const MIN_RATE_FOR_HOUSE = 8.50;
-export const MAX_RATE_FOR_HOUSE = 9.40;
-export const RATE_FOR_CAR_WITH_ALL_INSURANCE = 3.50;
-export const RATE_FOR_CAR_WITH_SOME_INSURANCE = 8.50;
-export const RATE_FOR_CAR_WITH_HIGH_PRICE = 15;
-export const RATE_FOR_CAR_DEFAULT = 16;
-export const DELAY_FOR_SLIDER = 4000;
-export const PLACEHOLDER = `Выберите цель кредита`;
-const PRICE_SEPARATOR = 3;
-const CREDIT_FOR_HOUSE_MIN = 500000;
-const CREDIT_FOR_CAR_MIN = 200000;
+const DELAY_FOR_SLIDER = 4000;
+const ESCAPE_KEYCODE = 27;
+const INITIAL_FORM_NUMBER = 11;
+const MIN_INCOME_IN_PERCENT = 45;
+const PLACEHOLDER = `Выберите цель кредита`;
 
-export const AvailableCredit = {
+const Price = {
+  INITIAL_PRICE: 2000000,
+  PRICE_FOR_HOUSE_MIN: 1200000,
+  PRICE_FOR_HOUSE_MAX: 25000000,
+  PRICE_FOR_CAR_MIN: 500000,
+  PRICE_FOR_CAR_MAX: 5000000,
+  MIN_CAR_PRICE_FOR_LOWER_RATE: 2000000,
+  STEP_FOR_HOUSE_PRICE: 100000,
+  STEP_FOR_CAR_PRICE: 50000,
+  MATERNAL_CAPITAL: 470000,
+  PRICE_SEPARATOR: 3,
+  CREDIT_FOR_HOUSE_MIN: 500000,
+  CREDIT_FOR_CAR_MIN: 200000,
+};
+
+const Rate = {
+  MIN_RATE_FOR_HOUSE: 8.50,
+  MAX_RATE_FOR_HOUSE: 9.40,
+  RATE_FOR_CAR_WITH_ALL_INSURANCE: 3.50,
+  RATE_FOR_CAR_WITH_SOME_INSURANCE: 8.50,
+  RATE_FOR_CAR_WITH_HIGH_PRICE: 15,
+  RATE_FOR_CAR_DEFAULT: 16,
+};
+
+const Fee = {
+  INITIAL_FEE_IN_PERCENT_FOR_HOUSE: 10,
+  INITIAL_FEE_IN_PERCENT_FOR_CAR: 20,
+  MIN_HOUSE_INITIAL_FEE_IN_PERCENT_FOR_LOWER_RATE: 15,
+};
+
+const Year = {
+  YEARS_FOR_HOUSE_MIN: 5,
+  YEARS_FOR_CAR_MIN: 1,
+  YEARS_FOR_HOUSE_MAX: 30,
+  YEARS_FOR_CAR_MAX: 5,
+  MONTHS_IN_YEAR: 12,
+};
+
+const AvailableCredit = {
   HOUSE_CREDIT: `Ипотечное кредитование`,
   CAR_CREDIT: `Автомобильное кредитование`
 };
 
-export const options = [
+const options = [
   {value: AvailableCredit.HOUSE_CREDIT, label: AvailableCredit.HOUSE_CREDIT},
   {value: AvailableCredit.CAR_CREDIT, label: AvailableCredit.CAR_CREDIT},
 ];
 
-export const TabName = {
+const TabName = {
   DEPOSITS: `DEPOSITS`,
   CREDITS: `CREDITS`,
   INSURANCE: `INSURANCE`,
   ONLINE: `ONLINE`
 };
 
-export const smoothScroll = {
+const smoothScroll = {
   behavior: `smooth`,
 };
 
 
-export const mockTabsData = {
+const mockTabsData = {
   DEPOSITS: {
     title: `Вклады Лига Банка – это выгодная инвестиция в свое будущее`,
     features: [`Проценты по вкладам до 7%`, `Разнообразные условия`, `Возможность ежемесячной капитализации или вывод процентов на банковскую карту`],
@@ -105,7 +117,7 @@ export const mockTabsData = {
   },
 };
 
-export const customStyles = {
+const customStyles = {
   indicatorsContainer: (provided, state) => ({
     ...provided,
     "transform": state.selectProps.menuIsOpen ? `rotate(180deg)` : `rotate(0deg)`,
@@ -174,7 +186,7 @@ export const customStyles = {
   }),
 };
 
-export const returnCreditTarget = (currentOption) => {
+const returnCreditTarget = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return `Ипотека`;
@@ -187,16 +199,16 @@ export const returnCreditTarget = (currentOption) => {
 };
 
 
-export const returnSeparatedPrice = (price) => {
+const returnSeparatedPrice = (price) => {
   let separatedPrice = typeof price === `string` ? price.split(``).reverse() : price.toFixed().split(``).reverse();
 
-  for (let i = PRICE_SEPARATOR; i < separatedPrice.length; i = i + PRICE_SEPARATOR + 1) {
+  for (let i = Price.PRICE_SEPARATOR; i < separatedPrice.length; i = i + Price.PRICE_SEPARATOR + 1) {
     separatedPrice.splice(i, 0, ` `);
   }
   return separatedPrice.reverse().join(``);
 };
 
-export const setLocalStorageItems = (evt) => {
+const setLocalStorageItems = (evt) => {
   switch (evt.target.name) {
     case `full-name`: {
       localStorage.setItem(`full-name`, evt.target.value);
@@ -213,7 +225,7 @@ export const setLocalStorageItems = (evt) => {
   }
 };
 
-export const returnCreditOption = (currentOption) => {
+const returnCreditOption = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return `недвижимости`;
@@ -225,37 +237,37 @@ export const returnCreditOption = (currentOption) => {
   return ``;
 };
 
-export const returnPriceRange = (currentOption) => {
+const returnPriceRange = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return {
-        min: returnSeparatedPrice(PRICE_FOR_HOUSE_MIN),
-        max: returnSeparatedPrice(PRICE_FOR_HOUSE_MAX)
+        min: returnSeparatedPrice(Price.PRICE_FOR_HOUSE_MIN),
+        max: returnSeparatedPrice(Price.PRICE_FOR_HOUSE_MAX)
       };
     }
     case AvailableCredit.CAR_CREDIT: {
       return {
-        min: returnSeparatedPrice(PRICE_FOR_CAR_MIN),
-        max: returnSeparatedPrice(PRICE_FOR_CAR_MAX)
+        min: returnSeparatedPrice(Price.PRICE_FOR_CAR_MIN),
+        max: returnSeparatedPrice(Price.PRICE_FOR_CAR_MAX)
       };
     }
   }
   return ``;
 };
 
-export const returnMinCreditAmount = (currentOption) => {
+const returnMinCreditAmount = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
-      return CREDIT_FOR_HOUSE_MIN;
+      return Price.CREDIT_FOR_HOUSE_MIN;
     }
     case AvailableCredit.CAR_CREDIT: {
-      return CREDIT_FOR_CAR_MIN;
+      return Price.CREDIT_FOR_CAR_MIN;
     }
   }
   return ``;
 };
 
-export const returnCreditname = (currentOption) => {
+const returnCreditName = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return `ипотечные `;
@@ -267,25 +279,25 @@ export const returnCreditname = (currentOption) => {
   return ``;
 };
 
-export const returnYearsRange = (currentOption) => {
+const returnYearsRange = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return {
-        min: YEARS_FOR_HOUSE_MIN,
-        max: YEARS_FOR_HOUSE_MAX
+        min: Year.YEARS_FOR_HOUSE_MIN,
+        max: Year.YEARS_FOR_HOUSE_MAX
       };
     }
     case AvailableCredit.CAR_CREDIT: {
       return {
-        min: YEARS_FOR_CAR_MIN,
-        max: YEARS_FOR_CAR_MAX
+        min: Year.YEARS_FOR_CAR_MIN,
+        max: Year.YEARS_FOR_CAR_MAX
       };
     }
   }
   return ``;
 };
 
-export const returnYearsText = (years) => {
+const returnYearsText = (years) => {
   years = years % 100;
   if (years >= 5 && years <= 20) {
     return ` лет`;
@@ -301,7 +313,7 @@ export const returnYearsText = (years) => {
   }
 };
 
-export const returnCurrencyText = (amount) => {
+const returnCurrencyText = (amount) => {
   amount = amount % 100;
   if (amount >= 5 && amount <= 20) {
     return ` рублей`;
@@ -317,7 +329,7 @@ export const returnCurrencyText = (amount) => {
   }
 };
 
-export const returnCreditTargetForPopup = (currentOption) => {
+const returnCreditTargetForPopup = (currentOption) => {
   switch (currentOption) {
     case AvailableCredit.HOUSE_CREDIT: {
       return `ипотеки`;
@@ -328,3 +340,5 @@ export const returnCreditTargetForPopup = (currentOption) => {
   }
   return ``;
 };
+
+export {Price, Rate, Fee, Year, AvailableCredit, options, TabName, smoothScroll, mockTabsData, customStyles, DELAY_FOR_SLIDER, PLACEHOLDER, ESCAPE_KEYCODE, INITIAL_FORM_NUMBER, MIN_INCOME_IN_PERCENT, returnCreditTarget, returnSeparatedPrice, setLocalStorageItems, returnCreditOption, returnPriceRange, returnMinCreditAmount, returnCreditName, returnYearsRange, returnYearsText, returnCurrencyText, returnCreditTargetForPopup};

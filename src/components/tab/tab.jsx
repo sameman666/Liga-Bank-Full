@@ -1,3 +1,4 @@
+import React from 'react';
 import './tab.scss';
 import PropTypes from 'prop-types';
 
