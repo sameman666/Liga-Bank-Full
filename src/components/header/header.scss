@@ -18,15 +18,21 @@
   img {
     margin-top: 27px;
     margin-left: 4px;
+    width: 150px;
+    height: 27px;
 
     @include tablet {
       margin-top: 23px;
       margin-left: 39px;
+      width: 134px;
+      height: 24px;
     }
 
     @include mobile {
       margin-top: 15px;
       margin-left: 0;
+      width: 116px;
+      height: 19px;
     }
   }
 }
@@ -66,6 +72,10 @@
 
   @include mobile {
     margin-right: 12px;
+
+    @-moz-document url-prefix() {
+      margin-right: 16px;
+    }
   }
 }
 
@@ -88,6 +98,10 @@
   @include tablet {
     margin-top: 31px;
     margin-left: 66px;
+
+    @-moz-document url-prefix() {
+      margin-top: 29px;
+    }
   }
 
   @include mobile {

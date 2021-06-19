@@ -315,6 +315,10 @@
     @include mobile {
       margin-top: 37px;
       padding: 0 10px;
+
+      @-moz-document url-prefix() {
+        margin-top: 35px;
+      }
     }
 
   .main__calculator-inputs {
@@ -339,6 +343,10 @@
     @include tablet {
       font-size: 32px;
       margin-bottom: 32px;
+
+      @-moz-document url-prefix() {
+        margin-bottom: 30px;
+      }
     }
 
     @include mobile {
@@ -385,8 +393,17 @@
     margin-top: 22px;
     margin-bottom: 5px;
 
+    @-moz-document url-prefix() {
+      margin-bottom: 3px;
+    }
+
+    @include tablet {
+      margin-bottom: 3px;
+    }
+
     @include mobile {
       margin-top: 20px;
+      margin-bottom: 5px;
     }
   }
 
@@ -466,6 +483,7 @@
 
   input[type='text'] {
     text-align: center;
+    padding-top: 3px;
 
     @include mobile {
       padding: 0 70px;
@@ -485,10 +503,18 @@
 
     @include tablet {
       margin-top: 16px;
+
+      @-moz-document url-prefix() {
+        margin-top: 15px;
+      }
     }
 
     @include mobile {
       margin-top: 11px;
+
+      @-moz-document url-prefix() {
+        margin-top: 10px;
+      }
     }
   }
 
@@ -498,7 +524,7 @@
     margin-top: 23px;
 
     @include tablet {
-      margin-top: 15px;
+      margin-top: 19px;
     }
 
     @include mobile {
@@ -697,6 +723,10 @@
 
   @include tablet {
     max-width: 678px;
+
+    @-moz-document url-prefix() {
+      padding-top: 51px;
+    }
   }
 
   @include mobile {
@@ -739,8 +769,22 @@
 .main__calculator-offer > p {
   margin-bottom: 25px;
 
+  @-moz-document url-prefix() {
+    margin-bottom: 23px;
+  }
+
+  @include tablet {
+    @-moz-document url-prefix() {
+      margin-bottom: 25px;
+    }
+  }
+
   @include mobile {
     margin-bottom: 23px;
+
+    @-moz-document url-prefix() {
+      margin-bottom: 21px;
+    }
   }
 }
 
@@ -756,6 +800,10 @@
 .main__calculator-offer-item {
   width: 50%;
   margin-bottom: 26px;
+
+  @-moz-document url-prefix() {
+    margin-bottom: 25px;
+  }
 
   @include mobile {
     width: 100%;
@@ -924,6 +972,10 @@
 
     @include mobile {
       font-size: 16px;
+
+      @-moz-document url-prefix() {
+        margin-bottom: 12px;
+      }
     }
   }
 
@@ -950,6 +1002,10 @@
     align-items: baseline;
     padding-bottom: 12px;
     margin-bottom: 12px;
+
+    @-moz-document url-prefix() {
+      margin-bottom: 11px;
+    }
 
     @include mobile {
       flex-direction: column;

@@ -11,9 +11,9 @@ const Footer = () => {
         <div className="footer__links">
           <a className="footer__logo" href="#">
             <picture>
-              <source srcSet={logoMobile} media="(max-width: 767.2px)" width="116" height="19"/>
-              <source srcSet={logoTablet} media="(max-width: 1023.2px)" width="134" height="24"/>
-              <img src={logo} alt="Лига Банк" width="150" height="27"/>
+              <source srcSet={logoMobile} media="(max-width: 767.2px)"/>
+              <source srcSet={logoTablet} media="(max-width: 1023.2px)"/>
+              <img src={logo} alt="Лига Банк"/>
             </picture>
           </a>
           <nav>
