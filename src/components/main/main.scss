@@ -552,6 +552,12 @@
 
   .main__invalid-input:focus {
     outline-color: red;
+    outline-style: none;
+    -moz-outline-style: none;
+  }
+
+  .main__invalid-input::-moz-focus {
+    color: red;
   }
 
   p {
