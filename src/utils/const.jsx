@@ -171,7 +171,6 @@ const customStyles = {
   }),
   container: (provided, state) => ({
     ...provided,
-    // "width": 600,
     "height": 60,
     "marginTop": 25,
     "marginBottom": state.selectProps.menuIsOpen ? 216 : 0,

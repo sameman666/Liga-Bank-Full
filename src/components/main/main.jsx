@@ -432,8 +432,7 @@ const Main = () => {
   const countRequiredIncome = () => {
     return (countAnnuityPayment() * 100 / MIN_INCOME_IN_PERCENT).toFixed();
   };
-  // eslint-disable-next-line no-console
-  console.log(state.currentInitialFee);
+
   return (
     <main className="main">
       <section className="main__swiper">
@@ -520,7 +519,6 @@ const Main = () => {
               styles={customStyles}
               components={{DropdownIndicator: createCustomDropdownIndicator}}
               inputId="select-credit-option"
-              // menuIsOpen={true}
             />
           </div>
           {state.currentOption && <div className="main__calculator-parameters">
