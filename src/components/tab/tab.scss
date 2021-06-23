@@ -62,13 +62,16 @@
     font-size: 18px;
     line-height: 140%;
     font-weight: normal;
+    max-width: 80%;
 
     @include tablet {
       font-size: 16px;
+      min-width: 288px;
     }
 
     @include mobile {
       font-size: 14px;
+      min-width: 0;
     }
   }
 

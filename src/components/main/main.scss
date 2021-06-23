@@ -299,7 +299,7 @@
 
 .main__calculator {
     width: calc(100% - 10px);
-    min-height: 325px;
+    min-height: 314px;
     max-width: 1170px;
     margin: 0 5px;
     margin-top: 97px;
@@ -310,11 +310,13 @@
       margin-top: 68px;
       padding-left: 40px;
       padding-right: 40px;
+      min-height: 246px;
     }
 
     @include mobile {
       margin-top: 37px;
       padding: 0 10px;
+      min-height: 201px;
 
       @-moz-document url-prefix() {
         margin-top: 35px;
@@ -325,7 +327,8 @@
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    margin-right: 10px;
+    width: 100%;
+    margin-right: 30px;
 
     @include tablet {
       max-width: 100%;
@@ -375,9 +378,11 @@
   flex-direction: column;
   margin-top: 36px;
   position: relative;
+  margin-bottom: 83px;
 
   @include tablet {
     margin-top: 37px;
+    margin-bottom: 0;
   }
 
   @include mobile {
@@ -708,14 +713,17 @@
 .main__calculator-popup {
   margin-left: auto;
   padding-top: 112px;
+  min-width: 444px;
 
   @include tablet {
     margin: 0 auto;
     padding-top: 31px;
+    margin-bottom: 69px;
   }
 
   @include mobile {
-    width: 100%;
+    min-width: 100%;
+    margin-bottom: 54px;
   }
 }
 
@@ -826,10 +834,12 @@
 }
 
 .main__calculator-offer-item:nth-child(odd) {
-  width: 59%;
+  width: 50%;
+  margin-right: 9%;
 
   @include tablet {
     width: 41%;
+    margin-right: 0;
   }
 
   @include mobile {
@@ -849,6 +859,7 @@
   font-weight: 500;
   font-size: 22px;
   line-height: 140%;
+  min-width: 159px;
 
   @include mobile {
     font-size: 18px;
@@ -882,14 +893,17 @@
 
 .main__form {
   width: 100%;
-  margin-top: 57px;
+  margin-top: -25px;
+  margin-bottom: 95px;
 
   @include tablet {
-    margin-top: 55px;
+    margin-top: -14px;
+    margin-bottom: 69px;
   }
 
   @include mobile {
-    margin-top: 43px;
+    margin-top: -11px;
+    margin-bottom: 54px;
   }
 
   form {
@@ -1105,15 +1119,15 @@
 
 .main__offices {
   width: 100%;
-  margin-top: 62px;
+  // margin-top: 62px;
 
-  @include tablet {
-    margin-top: 42px;
-  }
+  // @include tablet {
+  //   margin-top: 42px;
+  // }
 
-  @include mobile {
-    margin-top: 36px;
-  }
+  // @include mobile {
+  //   margin-top: 36px;
+  // }
 }
 
 .main__offices-map {
@@ -1135,6 +1149,7 @@
     font-weight: bold;
     font-size: 41px;
     line-height: 140%;
+    margin-top: 0;
 
     @include tablet {
       font-size: 32px;

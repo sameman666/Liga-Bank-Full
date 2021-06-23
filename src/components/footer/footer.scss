@@ -11,6 +11,7 @@
     min-height: 350px;
     margin-top: 80px;
     padding: 47px 40px;
+    padding-right: 118px;
   }
 
   @include mobile {
@@ -161,11 +162,13 @@
   display: flex;
   padding-left: 12px;
   padding-top: 10px;
+  width: 100%;
 
   @include tablet {
     flex-direction: column;
     margin-left: auto;
     padding-top: 8px;
+    width: auto;
   }
 
   @include mobile {
@@ -226,7 +229,12 @@
 }
 
 .footer__contact:nth-child(1) {
-  margin-right: 113px;
+  // margin-right: 113px;
+  width: 48%;
+
+  @include tablet {
+    width: auto;
+  }
 
   @include mobile {
     margin-right: 0;

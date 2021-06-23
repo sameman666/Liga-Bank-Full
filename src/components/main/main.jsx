@@ -30,6 +30,7 @@ const Main = () => {
     initialFee: null,
     initialFeeInPercent: null,
     years: null,
+    currentInitialFee: null,
     invalidPrice: false,
     invalidYears: false,
     invalidInitialFee: false,
@@ -106,6 +107,7 @@ const Main = () => {
           price: INITIAL_PRICE,
           initialFee: INITIAL_PRICE * INITIAL_FEE_IN_PERCENT_FOR_HOUSE / 100,
           initialFeeInPercent: INITIAL_FEE_IN_PERCENT_FOR_HOUSE,
+          currentInitialFee: INITIAL_FEE_IN_PERCENT_FOR_HOUSE,
           years: YEARS_FOR_HOUSE_MIN
         });
         break;
@@ -117,6 +119,7 @@ const Main = () => {
           price: INITIAL_PRICE,
           initialFee: INITIAL_PRICE * INITIAL_FEE_IN_PERCENT_FOR_CAR / 100,
           initialFeeInPercent: INITIAL_FEE_IN_PERCENT_FOR_CAR,
+          currentInitialFee: INITIAL_FEE_IN_PERCENT_FOR_CAR,
           years: YEARS_FOR_CAR_MIN
         });
         break;
@@ -205,6 +208,7 @@ const Main = () => {
         invalidInitialFee: false,
         price: floatValue,
         initialFee: floatValue * initialFee / 100,
+        currentInitialFee: initialFee,
       });
     }
     initialFeeRange.current.value = initialFee;
@@ -233,14 +237,17 @@ const Main = () => {
         ...state,
         invalidInitialFee: false,
         initialFee: floatValue,
+        currentInitialFee: floatValue * 100 / state.price
       });
     }
+    initialFeeRange.current.value = floatValue * 100 / state.price;
   };
 
   const initialFeeRangeHandler = (evt) => {
     setState({
       ...state,
       invalidInitialFee: false,
+      currentInitialFee: evt.target.value,
       initialFee: state.price * evt.target.value / 100,
     });
   };
@@ -273,6 +280,18 @@ const Main = () => {
         invalidInitialFee: false,
         price: state.price + step,
         initialFee: (state.price + step) * initialFee / 100,
+        currentInitialFee: initialFee
+      });
+      initialFeeRange.current.value = initialFee;
+    }
+    if (state.invalidPrice) {
+      setState({
+        ...state,
+        invalidPrice: false,
+        invalidInitialFee: false,
+        price: INITIAL_PRICE + step,
+        initialFee: (INITIAL_PRICE + step) * initialFee / 100,
+        currentInitialFee: initialFee
       });
       initialFeeRange.current.value = initialFee;
     }
@@ -305,6 +324,16 @@ const Main = () => {
         invalidPrice: false,
         price: state.price - step,
         initialFee: (state.price - step) * initialFee / 100,
+      });
+      initialFeeRange.current.value = initialFee;
+    }
+    if (state.invalidPrice) {
+      setState({
+        ...state,
+        invalidPrice: false,
+        invalidInitialFee: false,
+        price: INITIAL_PRICE - step,
+        initialFee: (INITIAL_PRICE - step) * initialFee / 100,
       });
       initialFeeRange.current.value = initialFee;
     }
@@ -403,7 +432,8 @@ const Main = () => {
   const countRequiredIncome = () => {
     return (countAnnuityPayment() * 100 / MIN_INCOME_IN_PERCENT).toFixed();
   };
-
+  // eslint-disable-next-line no-console
+  console.log(state.currentInitialFee);
   return (
     <main className="main">
       <section className="main__swiper">
@@ -490,6 +520,7 @@ const Main = () => {
               styles={customStyles}
               components={{DropdownIndicator: createCustomDropdownIndicator}}
               inputId="select-credit-option"
+              // menuIsOpen={true}
             />
           </div>
           {state.currentOption && <div className="main__calculator-parameters">
@@ -524,7 +555,7 @@ const Main = () => {
               id="initial-fee"
             />
             <input className="main__range" ref={initialFeeRange} onChange={initialFeeRangeHandler} defaultValue={state.initialFeeInPercent} type="range" min={state.initialFeeInPercent} max="100" name="price-range" id="price-range" step="5"/>
-            <p className={state.invalidInitialFee ? `main__invalid-input-prompt` : ``}>{`${state.initialFeeInPercent}%`}</p>
+            <p className={state.invalidInitialFee ? `main__invalid-input-prompt` : ``}>{`${Number(state.currentInitialFee).toFixed()}%`}</p>
             <label htmlFor="credit-term">Срок кредитования</label>
             {state.invalidYears && <p className="main__invalid-years-message">Некорректное значение</p>}
             <CurrencyInput

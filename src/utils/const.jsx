@@ -143,9 +143,14 @@ const customStyles = {
   }),
   option: (provided) => ({
     ...provided,
-    padding: `25px 24px`,
-    borderBottom: `1px solid #C1C2CA`,
-    height: 60,
+    "padding": `21px 24px`,
+    "borderBottom": `1px solid #C1C2CA`,
+    "height": 60,
+    "cursor": `pointer`,
+    "@media (max-width: 767.2px)": {
+      ...provided[`@media only screen and (max-width: 767.2px)`],
+      paddingLeft: 14,
+    },
   }),
   control: (provided, state) => ({
     ...provided,
@@ -164,19 +169,22 @@ const customStyles = {
     ...provided,
     padding: 0,
   }),
-  container: (provided) => ({
+  container: (provided, state) => ({
     ...provided,
-    "width": 600,
+    // "width": 600,
     "height": 60,
     "marginTop": 25,
+    "marginBottom": state.selectProps.menuIsOpen ? 216 : 0,
     "@media (max-width: 1023.2px)": {
       ...provided[`@media only screen and (max-width: 1023.2px)`],
-      width: `100%`,
-      marginTop: 21,
+      "width": `100%`,
+      "marginTop": 21,
+      "marginBottom": state.selectProps.menuIsOpen ? 189 : 0,
     },
     "@media (max-width: 767.2px)": {
       ...provided[`@media only screen and (max-width: 767.2px)`],
-      marginTop: 16,
+      "marginTop": 16,
+      "marginBottom": state.selectProps.menuIsOpen ? 174 : 0,
     },
   }),
   placeholder: (provided) => ({
