@@ -154,6 +154,7 @@ const customStyles = {
   }),
   control: (provided, state) => ({
     ...provided,
+    "cursor": `pointer`,
     "borderRadius": state.menuIsOpen ? `4px 4px 0 0` : `4px 4px 4px 4px`,
     "boxShadow": `none`,
     "height": 60,
